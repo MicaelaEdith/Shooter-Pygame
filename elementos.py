@@ -1,14 +1,75 @@
 import pygame, random
-      
+
+class Avion1():
+    def __init__(self):
+        self.coordX=random.randrange(0,220)
+        self.coordY=-50
+        self.cuadro=0
+        self.imagen=pygame.image.load("img/Enemigo1.png")
+        self.direct=4
+        self.imagenBala=pygame.image.load("img/bala.png")
+        self.coordXBala1=random.randrange(120,450)
+        self.coordXBala2=random.randrange(460,700)
+        self.coordYBala1=self.coordY
+        self.coordYBala2=self.coordY
+        self.banderaDireccion=True
+
+    def dibujarAvion(self, pantalla,velX,velY):
+        if self.banderaDireccion:
+            if self.coordY<850:
+                self.coordX+=velX
+                self.coordY+=velY
+
+            else:
+                self.coordY=-30
+                self.banderaDireccion=False
+                self.coordX=random.randrange(375,750)
+
+            pantalla.blit(self.imagen, (self.coordX, self.coordY))
+        
+        else:
+            if self.coordY<850:
+                self.coordX-=velX
+                self.coordY+=velY
+
+            else:
+                self.coordY=-30
+                self.banderaDireccion=True
+                self.coordX=random.randrange(0,325)
+
+            pantalla.blit(self.imagen, (self.coordX, self.coordY))
+
+
+class Avion2():
+    def __init__(self):
+        self.coordX=random.randrange(500,780)
+        self.coordY=-250
+        self.cuadro=0
+        self.imagen=pygame.image.load("img/Enemigo2.png")
+        self.direct=-2
+
+    def dibujarAvion(self, pantalla,velX,velY):
+        if self.coordY<850:
+            self.coordX-=velX
+            self.coordY+=velY
+
+        else:
+            self.coordY=-250
+            self.coordX=random.randrange(500,780)
+
+        pantalla.blit(self.imagen, (self.coordX, self.coordY))
+        
 class Misil1():
     def __init__(self):
         self.coordX=random.randrange(750)
         self.coordY=-50
         self.cuadro=0
         self.misil1=[]
-        self.misil1.append(pygame.image.load('img/misilA1.png'))
-        self.misil1.append(pygame.image.load('img/misilA2.png'))
+        self.misil1.append(pygame.image.load("img/misilA1.png"))
+        self.misil1.append(pygame.image.load("img/misilA2.png"))
         self.direct=6
+        self.puntaX=self.coordX+23
+        self.puntaY=self.coordY+185       
 
     def dibujarMisil(self, pantalla):
         if self.coordY<850:
@@ -20,17 +81,16 @@ class Misil1():
 
             if self.coordY%2==0:
                 self.coordY+=6.5
-                self.cuadro=1
+                self.cuadro=0
                 self.coordX+=self.direct
             else:
                 self.coordY+=6.5
-                self.cuadro=0
+                self.cuadro=1
                 self.coordX+=self.direct
 
         else:
             self.coordY=-50
             self.coordX=random.randrange(750)
-    
 
         pantalla.blit(self.misil1[self.cuadro], (self.coordX, self.coordY))
 
@@ -103,7 +163,16 @@ class Nubes():
 
 class Estrella():
     def __init__(self):
-        self.estrella=pygame.image.load('img/estrella.png')
+        self.estrella=pygame.image.load('img/estrella.png').convert()
+        self.estrella.set_colorkey([0,0,0])
+        self.rect=self.estrella.get_rect()
+        self.coordY=-50
+        self.coordX=random.randrange(350)
+    
+    def caer(self, pantalla):
+        self.coordY+=4
+        self.coordX+=1
+        pantalla.blit(self.estrella, (self.coordX, self.coordY))
 
 class Vida():
     def __init__(self):
@@ -111,13 +180,28 @@ class Vida():
 
 class ColisionRoja():
     def __init__(self):
+        self.Y=600
         self.cuadro=0
-        self.colision=[]
-        self.colision.append(pygame.image.load('img/Explosion1.png').set_colorkey([255,255,255]))
-        self.colision.append(pygame.image.load('img/Explosion2.png').set_colorkey([255,255,255]))
-        self.colision.append(pygame.image.load('img/Explosion3.png').set_colorkey([255,255,255]))
+        self.listaImg=[]
+        self.Img0=pygame.image.load('img/Explosion1.png').convert()
+        self.Img0.set_colorkey([255,255,255])
+        self.Img1=pygame.image.load('img/Explosion2.png').convert()
+        self.Img1.set_colorkey([255,255,255])
+        self.Img2=pygame.image.load('img/Explosion1.png').convert()
+        self.Img2.set_colorkey([255,255,255])
+        self.listaImg.append(self.Img0)
+        self.listaImg.append(self.Img1)
+        self.listaImg.append(self.Img2)
 
-    def explotarRojo(self):
-        pass
-
-
+    def explotarR(self, pantalla, coordX):
+        print("inicio")
+        for j in range(2):
+            for i in range (8):
+                if i<3:
+                    pantalla.blit(self.listaImg[2], (coordX, self.Y))
+                elif i<6:
+                    pantalla.blit(self.listaImg[1], (coordX, self.Y))
+                else:
+                    pantalla.blit(self.listaImg[0], (coordX, self.Y))
+                print("fin")
+        print("fuera del for")

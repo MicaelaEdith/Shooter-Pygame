@@ -1,9 +1,10 @@
 import pygame
 
-class Jugador:
+class Jugador(pygame.sprite.Sprite):
     def __init__(self):
-        self.jugador=pygame.image.load("img/Jugador.png").convert()
-        self.jugador.set_colorkey([16,25,57])
+        super().__init__()
+        self.image=pygame.image.load("img/Jugador.png").convert()
+        self.image.set_colorkey([16,25,57])
         self.posX=340
         self.posY=625
         self.vida=5
@@ -12,10 +13,10 @@ class Jugador:
         self.bala.set_colorkey([255,255,255])
         self.coordYBala=635
         self.BanderaBala=True
-        
+        self.rect=self.image.get_rect()
       
     def dibujarJugador(self, pantalla):
-        pantalla.blit(self.jugador, [self.posX, self.posY])
+        pantalla.blit(self.image, [self.posX, self.posY])
 
     def moverJugador(self, event, pantalla):
 
@@ -29,7 +30,7 @@ class Jugador:
             if event.key == pygame.K_SPACE:
                 if self.coordYBala>-1 and self.BanderaBala==True:
                     self.coordYBala-=20
-                    pantalla.blit(self.bala, (self.posX+48, self.coordYBala))    # <---   ####Mejorar img & anim.
+                    pantalla.blit(self.bala, (self.posX+48, self.coordYBala)) 
                 else:
                     self.BanderaBala=False
             if event.key == pygame.K_LEFT:
@@ -37,7 +38,5 @@ class Jugador:
             if event.key == pygame.K_RIGHT:
                 self.posX+=0
         
-
-
-
+    
 
