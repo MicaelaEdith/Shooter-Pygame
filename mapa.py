@@ -15,3 +15,5 @@ class Mapa:
 
     def dibujarMapa(self, pantalla):
         pantalla.blit(self.fondo, [0, 0])
+
+    

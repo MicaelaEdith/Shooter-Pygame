@@ -8,6 +8,7 @@ class Avion1():
         self.imagen=pygame.image.load("img/Enemigo1.png")
         self.direct=4
         self.imagenBala=pygame.image.load("img/bala.png")
+        self.imagenBala.set_colorkey([255,255,255])
         self.coordXBala1=random.randrange(120,450)
         self.coordXBala2=random.randrange(460,700)
         self.coordYBala1=self.coordY
@@ -39,6 +40,13 @@ class Avion1():
 
             pantalla.blit(self.imagen, (self.coordX, self.coordY))
 
+        if self.coordX >=120:                       #acomodarBalas-ver->coordenadas,velocidad,movimiento
+            self.coordYBala1+=2.5
+            pantalla.blit(self.imagenBala, (self.coordXBala1, self.coordYBala1))
+
+        if self.coordX >=450:
+            self.coordYBala2+=2
+            pantalla.blit(self.imagenBala, (self.coordXBala2, self.coordYBala2))
 
 class Avion2():
     def __init__(self):
