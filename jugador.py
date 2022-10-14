@@ -7,7 +7,7 @@ class Jugador():
         self.posX=340
         self.posY=625
         self.vida=5
-        self.puntos=0
+        self.puntos=260
         self.nivel=1
         self.bala=pygame.image.load("img/bala.png")
         self.bala.set_colorkey([255,255,255])
@@ -24,7 +24,6 @@ class Jugador():
                 self.posX+=-5
             if event.key == pygame.K_RIGHT and self.posX < 662:
                 self.posX+=5
-
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 if self.coordYBala>-1 and self.BanderaBala==True:
