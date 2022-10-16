@@ -32,7 +32,7 @@ class AccesoDatos:
         if self.conexion.is_connected():
             try:
                 cursor=self.conexion.cursor()
-                cursor.execute('select from historial ') #definirString
+                cursor.execute('select * from historial order by mejorPuntaje desc;')
                 self.conexion.commit()
                 print('guardadoOk')
             except Error as ex:

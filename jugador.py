@@ -1,5 +1,6 @@
 import pygame
 
+
 class Jugador():
     def __init__(self):
         self.image=pygame.image.load("img/Jugador.png").convert()

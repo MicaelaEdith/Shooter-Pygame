@@ -31,6 +31,7 @@ nivel=Nivel()
 while vidaJugador:
     mapa.dibujarMapa(pantalla)
     nubes.dibujarNubes(pantalla)
+    
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -39,6 +40,7 @@ while vidaJugador:
         if jugador.BanderaBala==False:
             jugador.coordYBala=635
             jugador.BanderaBala=True
+            jugador.BanderaImpacto=True
 
     jugador.moverJugador(event, pantalla)
     jugador.dibujarJugador(pantalla)
@@ -50,13 +52,14 @@ while vidaJugador:
         avion1.dibujarAvion(pantalla,4.5,5)
         if rectJ.colliderect(rectA1):   #agregar colision balas
             pass
-        if rectJB.colliderect(rectA1):
+            #jugador.vida-=1
+            #print("-1")
+        if rectJB.colliderect(rectA1) and jugador.BanderaImpacto:
             jugador.puntos+=10
-            jugador.BanderaImpacto=False        #setear corte de puntaje
+            jugador.BanderaImpacto=False
 
  ##################---DefinirImagenLevelUp
 
- 
     if jugador.puntos>=80 and jugador.puntos<150 and misil1.contador<15:    ############################################---NIVEL2---
         rectM1=misil1.misil1[0].get_rect(x=misil1.coordX, y=misil1.coordY)
         rectM2=misil2.misil2[0].get_rect(x=misil2.coordX, y=misil2.coordY)
@@ -73,12 +76,15 @@ while vidaJugador:
         avion2.dibujarAvion(pantalla, 4.5,6)
         if rectJ.colliderect(rectA1) or rectJ.colliderect(rectA2):
             pass
+        if rectJB.colliderect(rectA1) or rectJB.colliderect(rectA2):
+            jugador.puntos+=10
+            jugador.BanderaImpacto=False 
 
     if jugador.puntos>=250 and jugador.puntos<450:   ############################################---NIVEL4---
         ovni.dibujarOvni(pantalla)
 
 
-    #estrella.caer(pantalla)
+    estrella.caer(pantalla)
     #if colision==True:
     #    colision=False
     #    colisiones+=1

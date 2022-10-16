@@ -216,7 +216,7 @@ class Nubes():
 
 class Estrella():
     def __init__(self):
-        self.estrella=pygame.image.load('img/estrella.png').convert()
+        self.estrella=pygame.image.load('img/estrella.png')
         self.estrella.set_colorkey([255,255,255])
         self.rect=self.estrella.get_rect()
         self.coordY=-50
@@ -247,7 +247,7 @@ class ColisionRoja():
         self.listaImg.append(self.Img2)
 
     def explotarR(self, pantalla, coordX):
-        for j in range(2):
+        for j in range(10):
             for i in range (8):
                 if i<3:
                     pantalla.blit(self.listaImg[2], (coordX, self.Y-18))
