@@ -227,10 +227,6 @@ class Estrella():
         self.coordX+=1
         pantalla.blit(self.estrella, (self.coordX, self.coordY))
 
-class Vida():
-    def __init__(self):
-        self.vida=pygame.image.load('img/vida.png')
-
 class ColisionRoja():
     def __init__(self):
         self.Y=580

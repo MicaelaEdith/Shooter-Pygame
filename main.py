@@ -1,4 +1,5 @@
 import pygame
+from inicio import Inicio
 from mapa import Mapa
 from jugador import Jugador
 from elementos import Avion1, Avion2, Misil1, Misil2, Nubes, Estrella, ColisionRoja, Ovni, Nivel
@@ -7,6 +8,7 @@ pygame.init()
 medidaPantalla = (800,750)
 pantalla = pygame.display.set_mode(medidaPantalla)
 reloj = pygame.time.Clock()
+#inicio=Inicio()
 
 vidaJugador = True
 dia= True
@@ -14,7 +16,7 @@ colisiones=0
 colision=False
 mapa= Mapa()
 mapa.setearMapa(dia)
-jugador=Jugador()
+jugador=Jugador("Mica ")
 nubes=Nubes()
 misil1=Misil1()
 misil2=Misil2()
@@ -25,12 +27,14 @@ avion2=Avion2()
 ovni=Ovni()
 nivel=Nivel()
 
-#definirPantallaInicio
+#inicio.dibujar()
 
 
 while vidaJugador:
     mapa.dibujarMapa(pantalla)
     nubes.dibujarNubes(pantalla)
+    mapa.marcador(pantalla, 1, jugador.puntos)
+    mapa.nivelJugador(pantalla, jugador.nombre)
     
 
     for event in pygame.event.get():

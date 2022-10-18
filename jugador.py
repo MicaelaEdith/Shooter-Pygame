@@ -2,7 +2,8 @@ import pygame
 
 
 class Jugador():
-    def __init__(self):
+    def __init__(self, nombre):
+        self.nombre=nombre
         self.image=pygame.image.load("img/Jugador.png").convert()
         self.image.set_colorkey([16,25,57])
         self.posX=340
