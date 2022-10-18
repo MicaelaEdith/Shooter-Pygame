@@ -37,7 +37,7 @@ class AccesoDatos:
         if self.conexion.is_connected():
             try:
                 cursor=self.conexion.cursor()
-                cursor.execute('select * from aviones')             #'select * from historial order by mejorPuntaje desc;')
+                cursor.execute('select * from historial order by mejorPuntaje desc;')
                 respuesta=cursor.fetchall()
                 print(respuesta)
                 return respuesta
@@ -45,8 +45,7 @@ class AccesoDatos:
                 print(f'Fallo: {ex}')
 
 
-########################--PruebasOk
-#consulta="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('Jugador3',2,95,120);"
+
 #acceso=AccesoDatos()
 #acceso.listarRanking()
 #acceso.ejecutarAccion(consulta)

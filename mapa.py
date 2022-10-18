@@ -34,7 +34,7 @@ class Mapa:
         self.colorFondo=(255,255,255)
         self.fuente=pygame.font.SysFont("Courier", 20, bold= True)
         self.superficie=self.fuente.render(str(jugador),True,self.color, self.colorFondo)
-        self.vida=pygame.image.load('vida.png')
+        self.vida=pygame.image.load('img/vida.png')
         self.vida.set_colorkey([255,255,255])
         pantalla.blit(self.vida, [690, 20])
         pantalla.blit(self.superficie, [620, 20])
