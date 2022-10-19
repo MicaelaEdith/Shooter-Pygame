@@ -252,6 +252,15 @@ class ColisionAviones():
             self.cuadro=0
         pantalla.blit(self.listaImg[self.cuadro], (coordX, self.Y))
 
+    def explotarE(self, pantalla, coordX,coordY):    
+        if self.cuadro==0:
+            self.cuadro+=1
+        elif self.cuadro==1:
+            self.cuadro+=1
+        elif self.cuadro==2:
+            self.cuadro=0
+        pantalla.blit(self.listaImg[self.cuadro], (coordX, coordY))
+
 class Nivel():
     def __init__(self):
         self.imagen=pygame.image.load('img/nivel.png')

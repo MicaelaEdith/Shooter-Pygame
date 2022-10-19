@@ -13,7 +13,7 @@ class AccesoDatos:
         except Error as ex:
             print(f'Fallo: {ex}')
     
-    def agregarJugador(self, string):
+    def ejecutarAccion(self, string):
         if self.conexion.is_connected():
             try:
                 cursor=self.conexion.cursor()
@@ -34,8 +34,10 @@ class AccesoDatos:
             except Error as ex:
                 print(f'Fallo: {ex}')
 
-
-
+############------Pruebas
+#agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('Jugador6',2,80,140);"
+#modificar="UPDATE historial SET nombre = 'JugadorX' WHERE id=5;"
+#eliminar="delete from historial where id=9;"
 #acceso=AccesoDatos()
 #acceso.listarRanking()
-#acceso.ejecutarAccion(consulta)
+#acceso.ejecutarAccion(agregar)

@@ -1,47 +1,47 @@
 import pygame
-pygame.init()
+from accesoDatos import AccesoDatos
 
 class Inicio():
-    def dibujar(self, pantalla):
-        self.bandera=True
-        self.fondo=pygame.image.load("img/Bienvenido.png").convert()
-        self.enterCh=pygame.image.load("img/EnterCh.png").convert()
-        self.enterGR=pygame.image.load("img/EnterGr.png").convert()
-        self.cuadro=0
-        self.enter=[]
-        self.enter.append(pygame.image.load("img/EnterCh.png"))
-        self.enter.append(pygame.image.load("img/EnterGr.png"))
-        self.contador=0
 
-        while self.bandera:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_KP_ENTER:
-                        self.bandera = False
+    def dibujar1(self, pantalla):
+        self.fondo=pygame.image.load("img/Bienvenido.png")
+        self.enter=pygame.image.load("img/EnterCh.png")
+        pantalla.blit(self.fondo, [0, 0])
+        pantalla.blit(self.enter, [4, 680])
 
-            if self.cuadro==0:
-                self.contador+=1
-                if self.contador>20:
-                    self.cuadro=1
-            if self.cuadro==1:
-                self.contador-=1
-                if self.contador<1:
-                    self.cuadro=0
+    def dibujar2(self, pantalla):
+        self.fondo=pygame.image.load("img/inicio.png")
+        self.enter=pygame.image.load("img/EnterCh.png")
+        pantalla.blit(self.fondo, [0, 0])
+        pantalla.blit(self.enter, [4, 680])
+
+
+    def guardar(self, accion, nombreJugador, seleccionado, id):
+        self.agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('"+str(nombreJugador)+"',"+str(seleccionado)+",0,0);"
+        self.modificar="UPDATE historial SET nombre = '"+str(nombreJugador)+"' WHERE id="+str(id)+";"
+        self.eliminar="delete from historial where id="+str(id)+";"
+        self.string=None
+        if accion==1:
+            string=self.agregar
+        if accion==2:
+            string=self.modificar
+        if accion==3:
+            string=self.eliminar
+        acceso=AccesoDatos()
+        acceso.ejecutarAccion(self.string)
         
-            pantalla.blit(self.fondo, [0, 0])
-            pantalla.blit(self.enter[self.cuadro], [4, 680])
 
-
-        ##################--Definir: seleccion de acciones para ingresar, modificar, listar y eliminar jugadores.
-        ### Definir selección de avion
+    ##################--Definir: seleccion de acciones para ingresar, modificar, listar y eliminar jugadores.
+    ### Definir selección de avion
 
 #prueba
 
 
-medidaPantalla = (800,750)
-pantalla = pygame.display.set_mode(medidaPantalla)
+#medidaPantalla = (800,750)
+#pantalla = pygame.display.set_mode(medidaPantalla)
+#inicio=True
 
-inicio=Inicio()
-inicio.dibujar(pantalla)
+#inicio=Inicio()
+#inicio.dibujar(pantalla)
 
-pygame.display.flip()
+#pygame.display.flip()
