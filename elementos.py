@@ -141,9 +141,9 @@ class Misil2():
 class Ovni():
     def __init__(self):
         self.coordX=10
-        self.coordY=80
+        self.coordY=100
         self.cuadro=0
-        self.imagen=pygame.image.load("img/Ovni.png")
+        self.imagen=pygame.image.load("img/Ovnidos.png")
         self.direct=4
         self.imagenBala=pygame.image.load("img/DisparoOvni.png")
         self.imagenBala.set_colorkey([255,255,255])
@@ -166,7 +166,7 @@ class Ovni():
 
         if self.banderaDireccionY:
             self.coordY+=3.5
-            if self.coordY>80:
+            if self.coordY>100:
                 self.banderaDireccionY=False
         else:
             self.coordY-=3.5
@@ -227,30 +227,30 @@ class Estrella():
         self.coordX+=1
         pantalla.blit(self.estrella, (self.coordX, self.coordY))
 
-class ColisionRoja():
+
+class ColisionAviones():
     def __init__(self):
-        self.Y=580
+        self.Y=570
         self.cuadro=0
         self.listaImg=[]
-        self.Img0=pygame.image.load('img/ExplosionOvniCh.png').convert()
+        self.Img0=pygame.image.load('img/ExplosionOvniCh1.png')
         self.Img0.set_colorkey([255,255,255])
-        self.Img1=pygame.image.load('img/ExplosionOvniCh.png').convert()
+        self.Img1=pygame.image.load('img/ExplosionOvniCh2.png')
         self.Img1.set_colorkey([255,255,255])
-        self.Img2=pygame.image.load('img/ExplosionOvniCh.png').convert()
+        self.Img2=pygame.image.load('img/ExplosionOvniCh3.png')
         self.Img2.set_colorkey([255,255,255])
         self.listaImg.append(self.Img0)
         self.listaImg.append(self.Img1)
         self.listaImg.append(self.Img2)
 
-    def explotarR(self, pantalla, coordX):
-        for j in range(10):
-            for i in range (8):
-                if i<3:
-                    pantalla.blit(self.listaImg[2], (coordX, self.Y-18))
-                elif i<6:
-                    pantalla.blit(self.listaImg[1], (coordX, self.Y))
-                else:
-                    pantalla.blit(self.listaImg[0], (coordX, self.Y-30))
+    def explotar(self, pantalla, coordX):    
+        if self.cuadro==0:
+            self.cuadro+=1
+        elif self.cuadro==1:
+            self.cuadro+=1
+        elif self.cuadro==2:
+            self.cuadro=0
+        pantalla.blit(self.listaImg[self.cuadro], (coordX, self.Y))
 
 class Nivel():
     def __init__(self):

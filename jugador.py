@@ -4,11 +4,12 @@ import pygame
 class Jugador():
     def __init__(self, nombre):
         self.nombre=nombre
-        self.image=pygame.image.load("img/Jugador.png").convert()
+        self.image=pygame.image.load("img/Jugadorbn.png").convert()
         self.image.set_colorkey([16,25,57])
         self.posX=340
         self.posY=625
-        self.vida=5
+        self.banderaVida=True
+        self.vida=1000
         self.puntos=0
         self.nivel=1
         self.bala=pygame.image.load("img/bala.png")

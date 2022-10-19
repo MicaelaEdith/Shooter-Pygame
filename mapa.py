@@ -29,13 +29,23 @@ class Mapa:
         pantalla.blit(self.superficie, [20, 20])
         pantalla.blit(self.superficieN, [20, 40])
 
-    def nivelJugador(self, pantalla, jugador):
+    def estadoJugador(self, pantalla, jugador, vida):
         self.color= (0 ,0 ,0)
         self.colorFondo=(255,255,255)
         self.fuente=pygame.font.SysFont("Courier", 20, bold= True)
         self.superficie=self.fuente.render(str(jugador),True,self.color, self.colorFondo)
         self.vida=pygame.image.load('img/vida.png')
         self.vida.set_colorkey([255,255,255])
-        pantalla.blit(self.vida, [690, 20])
-        pantalla.blit(self.superficie, [620, 20])
+        pantalla.blit(self.superficie, [700, 20])
+        
+        if vida==1000:
+            pantalla.blit(self.vida, [730, 50])
+        if vida>800:
+            pantalla.blit(self.vida, [690, 50])
+        if vida>600:
+            pantalla.blit(self.vida, [650, 50])
+        if vida>400:
+            pantalla.blit(self.vida, [610, 50])
+        if vida>200:
+            pantalla.blit(self.vida, [570, 50])
         

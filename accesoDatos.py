@@ -23,16 +23,6 @@ class AccesoDatos:
             except Error as ex:
                 print(f'Fallo: {ex}')
 
-    def ejecutarAccion(self,string):
-        if self.conexion.is_connected():
-            try:
-                cursor=self.conexion.cursor()
-                cursor.execute(string)
-                self.conexion.commit()
-                print('guardadoOk')
-            except Error as ex:
-                print(f'Fallo: {ex}')
-
     def listarRanking(self):
         if self.conexion.is_connected():
             try:
