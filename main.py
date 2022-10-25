@@ -30,8 +30,21 @@ nivel=Nivel()
 plusVida=True
 
 while vidaJugador:
+                
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            vidaJugador = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_0:
+                    inicio1=False
+
+        if jugador.BanderaBala==False:
+            jugador.coordYBala=635
+            jugador.BanderaBala=True
+            jugador.BanderaImpacto=True
+
     if inicio1==0:
-        inicio.dibujar1(pantalla)
+        inicio.dibujar1(pantalla,event)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
@@ -48,18 +61,6 @@ while vidaJugador:
         nubes.dibujarNubes(pantalla)
         mapa.marcador(pantalla, 1, jugador.puntos)
         mapa.estadoJugador(pantalla, jugador.nombre, jugador.vida)
-            
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                vidaJugador = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_0:
-                        inicio1=False
-
-            if jugador.BanderaBala==False:
-                jugador.coordYBala=635
-                jugador.BanderaBala=True
-                jugador.BanderaImpacto=True
 
         jugador.moverJugador(event, pantalla)
         jugador.dibujarJugador(pantalla)
@@ -88,6 +89,7 @@ while vidaJugador:
             misil2.dibujarMisil(pantalla)
             if rectJ.colliderect(rectM1) or rectJ.colliderect(rectM2):
                 colision.explotar(pantalla, jugador.posX-20)
+                jugador.vida-=5
 
 
 
@@ -98,7 +100,7 @@ while vidaJugador:
             avion2.dibujarAvion(pantalla, 4,8)
             if rectJ.colliderect(rectA1) or rectJ.colliderect(rectA2):
                 colision.explotar(pantalla, jugador.posX-20)
-            if rectJB.colliderect(rectA1) or rectJB.colliderect(rectA2):
+            if (rectJB.colliderect(rectA1) or rectJB.colliderect(rectA2)) and rectJB.y<620:
                 jugador.puntos+=10
                 jugador.BanderaImpacto=False 
 
@@ -121,5 +123,5 @@ while vidaJugador:
 #definirPantallaFin
 
     pygame.display.flip()
-    reloj.tick(120)
+    reloj.tick(60)
 

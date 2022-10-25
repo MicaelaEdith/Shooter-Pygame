@@ -143,7 +143,7 @@ class Ovni():
         self.coordX=10
         self.coordY=100
         self.cuadro=0
-        self.imagen=pygame.image.load("img/Ovnidos.png")
+        self.imagen=pygame.image.load("img/Ovni.png")
         self.direct=4
         self.imagenBala=pygame.image.load("img/DisparoOvni.png")
         self.imagenBala.set_colorkey([255,255,255])
@@ -166,11 +166,11 @@ class Ovni():
 
         if self.banderaDireccionY:
             self.coordY+=3.5
-            if self.coordY>100:
+            if self.coordY>130:
                 self.banderaDireccionY=False
         else:
             self.coordY-=3.5
-            if self.coordY<-100:
+            if self.coordY<-25:
                 self.banderaDireccionY=True
     
         if self.coordX >=120:                       #acomodarBalas-ver->coordenadas,velocidad,movimiento
@@ -242,23 +242,43 @@ class ColisionAviones():
         self.listaImg.append(self.Img0)
         self.listaImg.append(self.Img1)
         self.listaImg.append(self.Img2)
+        self.contador=0
+        self.banderaJugador=True
 
     def explotar(self, pantalla, coordX):    
-        if self.cuadro==0:
-            self.cuadro+=1
-        elif self.cuadro==1:
-            self.cuadro+=1
-        elif self.cuadro==2:
-            self.cuadro=0
+        if self.contador<10 and self.banderaJugador:
+            self.contador+=1
+            if self.contador==9:
+                self.cuadro=1
+        elif self.contador>=10 and self.contador<20:
+            self.banderaJugador=False
+            self.contador+=1
+            if self.contador==19:
+                self.cuadro=2
+        elif self.contador>=20:
+            self.contador+=1
+            if self.contador==30:
+                self.cuadro=0
+                self.contador=0
+                self.banderaJugador=True
         pantalla.blit(self.listaImg[self.cuadro], (coordX, self.Y))
 
     def explotarE(self, pantalla, coordX,coordY):    
-        if self.cuadro==0:
-            self.cuadro+=1
-        elif self.cuadro==1:
-            self.cuadro+=1
-        elif self.cuadro==2:
-            self.cuadro=0
+        if self.contador<10 and self.banderaJugador:
+            self.contador+=1
+            if self.contador==9:
+                self.cuadro=1
+        elif self.contador>=10 and self.contador<20:
+            self.banderaJugador=False
+            self.contador+=1
+            if self.contador==19:
+                self.cuadro=2
+        elif self.contador>=20:
+            self.contador+=1
+            if self.contador==30:
+                self.cuadro=0
+                self.contador=0
+                self.banderaJugador=True
         pantalla.blit(self.listaImg[self.cuadro], (coordX, coordY))
 
 class Nivel():
@@ -269,3 +289,5 @@ class Nivel():
     
     def dibujar(self, pantalla):
         pantalla.blit(self.imagen, (self.coordX, self.coordY))
+
+
