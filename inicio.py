@@ -24,8 +24,28 @@ class Inicio():
         self.fondo=pygame.image.load("img/inicio.png")
         pantalla.blit(self.fondo, [0, 0])
 
-    def dibujar3(self, pantalla):  #cargarJuego-ListarRanking
-        pass
+    def dibujarRanking(self, pantalla):  #cargarJuego-ListarRanking
+
+        self.fondo=pygame.image.load("img/noche.png")
+        self.acceso=AccesoDatos()
+        self.respuesta=self.acceso.listarRanking()
+        self.fuente=pygame.font.SysFont("Courier", 30, bold=True)
+
+################################### -- probar  !
+        self.imagenTexto1= self.fuente.render(str(self.respuesta[0]), True, (200,200,200), (16,25,57) )
+        self.imagenTexto2= self.fuente.render(str(self.respuesta[1]), True, (200,200,200), (16,25,57) )
+        self.imagenTexto3= self.fuente.render(str(self.respuesta[2]), True, (200,200,200), (16,25,57) )
+        self.imagenTexto4= self.fuente.render(str(self.respuesta[3]), True, (200,200,200), (16,25,57) )
+        self.imagenTexto5= self.fuente.render(str(self.respuesta[4]), True, (200,200,200), (16,25,57) )
+
+
+        pantalla.blit(self.fondo,(0,0))
+        pantalla.blit(self.imagenTexto1,(240,100))
+        pantalla.blit(self.imagenTexto2,(240,200))
+        pantalla.blit(self.imagenTexto3,(240,300))
+        pantalla.blit(self.imagenTexto4,(240,400))
+        pantalla.blit(self.imagenTexto5,(240,500))
+
 
     def guardar(self, accion, nombreJugador, seleccionado, id):
         self.agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('"+str(nombreJugador)+"',"+str(seleccionado)+",0,0);"
@@ -41,7 +61,6 @@ class Inicio():
         acceso=AccesoDatos()
         acceso.ejecutarAccion(self.string)
         
-s
 ###########################----  Prueba
 
 #medidaPantalla = (800,750)

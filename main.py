@@ -10,9 +10,10 @@ pantalla = pygame.display.set_mode(medidaPantalla)
 reloj = pygame.time.Clock()
 inicio=Inicio()
 
+
 inicio1=0
 vidaJugador = True
-dia= True
+dia= False
 colisiones=0
 colision=False
 mapa= Mapa()
@@ -55,6 +56,15 @@ while vidaJugador:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     inicio1+=1
+    
+    elif inicio1==2:
+        inicio.dibujarRanking(pantalla)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    inicio1+=1
+
+                    
 
     else: 
         mapa.dibujarMapa(pantalla)
@@ -67,9 +77,9 @@ while vidaJugador:
         rectJ=jugador.image.get_rect(x=jugador.posX, y=jugador.posY)
         rectJB=jugador.bala.get_rect(x=jugador.posX+48, y=jugador.coordYBala)
 
-        if jugador.puntos<80:                       #################################################---NIVEL1---
+        if jugador.puntos<20:                       #################################################---NIVEL1---
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
-            avion1.dibujarAvion(pantalla,4.5,5)
+            avion1.dibujarAvion(pantalla,3.8,7)
             if rectJ.colliderect(rectA1): 
                 colision.explotar(pantalla, jugador.posX-20)
                 jugador.vida-=5
@@ -82,7 +92,7 @@ while vidaJugador:
     ##################---DefinirImagenLevelUp
 
         plusVida=True
-        if jugador.puntos>=80 and jugador.puntos<150 and misil1.contador<15:    ############################################---NIVEL2---
+        if jugador.puntos>=20 and jugador.puntos<150 and misil1.contador<5:    ############################################---NIVEL2---
             rectM1=misil1.misil1[0].get_rect(x=misil1.coordX, y=misil1.coordY)
             rectM2=misil2.misil2[0].get_rect(x=misil2.coordX, y=misil2.coordY)
             misil1.dibujarMisil(pantalla)
@@ -96,8 +106,8 @@ while vidaJugador:
         if (jugador.puntos>=150 and jugador.puntos<250) or misil1.contador==15:   ############################################---NIVEL3---
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
             rectA2=avion2.imagen.get_rect(x=avion2.coordX, y=avion2.coordY)
-            avion1.dibujarAvion(pantalla,4,8)
-            avion2.dibujarAvion(pantalla, 4,8)
+            avion1.dibujarAvion(pantalla,3.5,8)
+            avion2.dibujarAvion(pantalla, 3.5,8)
             if rectJ.colliderect(rectA1) or rectJ.colliderect(rectA2):
                 colision.explotar(pantalla, jugador.posX-20)
             if (rectJB.colliderect(rectA1) or rectJB.colliderect(rectA2)) and rectJB.y<620:

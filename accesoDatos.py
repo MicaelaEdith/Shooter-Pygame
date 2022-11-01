@@ -26,13 +26,14 @@ class AccesoDatos:
     def listarRanking(self):
         if self.conexion.is_connected():
             try:
-                cursor=self.conexion.cursor()
-                cursor.execute('select * from historial order by mejorPuntaje desc;')
-                respuesta=cursor.fetchall()
-                print(respuesta)
-                return respuesta
+                self.cursor=self.conexion.cursor()
+                self.cursor.execute('select nombre, mejorPuntaje from historial order by mejorPuntaje desc limit 5;')
+                self.respuesta=self.cursor.fetchall()
+        
+                return self.respuesta
             except Error as ex:
                 print(f'Fallo: {ex}')
+
 
 ############------Pruebas
 #agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('Jugador6',2,80,140);"
