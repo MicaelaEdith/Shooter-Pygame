@@ -1,5 +1,7 @@
 import mysql.connector
+import string
 from mysql.connector import Error
+
 
 class AccesoDatos:
     def __init__(self):
@@ -24,21 +26,24 @@ class AccesoDatos:
                 print(f'Fallo: {ex}')
 
     def listarRanking(self):
+
         if self.conexion.is_connected():
             try:
                 self.cursor=self.conexion.cursor()
                 self.cursor.execute('select nombre, mejorPuntaje from historial order by mejorPuntaje desc limit 5;')
                 self.respuesta=self.cursor.fetchall()
-        
-                return self.respuesta
+
+                #print(self.respuesta)        
+                return str(self.respuesta)  #seguir desde acá
             except Error as ex:
                 print(f'Fallo: {ex}')
 
 
 ############------Pruebas
+
+
 #agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('Jugador6',2,80,140);"
 #modificar="UPDATE historial SET nombre = 'JugadorX' WHERE id=5;"
 #eliminar="delete from historial where id=9;"
 #acceso=AccesoDatos()
-#acceso.listarRanking()
 #acceso.ejecutarAccion(agregar)

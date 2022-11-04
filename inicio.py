@@ -28,23 +28,56 @@ class Inicio():
 
         self.fondo=pygame.image.load("img/noche.png")
         self.acceso=AccesoDatos()
-        self.respuesta=self.acceso.listarRanking()
+        self.respuesta=str(self.acceso.listarRanking())
         self.fuente=pygame.font.SysFont("Courier", 30, bold=True)
+        self.texto=' '
+        self.bandera=True
+        self.contador=1
+        self.puesto1=''
+        self.puesto2=''
+        self.puesto3=''
+        self.puesto4=''
+        self.puesto5=''
 
-################################### -- probar  !
-        self.imagenTexto1= self.fuente.render(str(self.respuesta[0]), True, (200,200,200), (16,25,57) )
-        self.imagenTexto2= self.fuente.render(str(self.respuesta[1]), True, (200,200,200), (16,25,57) )
-        self.imagenTexto3= self.fuente.render(str(self.respuesta[2]), True, (200,200,200), (16,25,57) )
-        self.imagenTexto4= self.fuente.render(str(self.respuesta[3]), True, (200,200,200), (16,25,57) )
-        self.imagenTexto5= self.fuente.render(str(self.respuesta[4]), True, (200,200,200), (16,25,57) )
+        for i in self.respuesta:
+            if not i =='[' and not i =='(' and not i ==',' and not i ==')' and not i ==']' and not i =="'":
+                self.texto=self.texto + i
+            elif i == ',' and self.bandera:
+                self.texto=self.texto + ' - '
+                self.bandera=False
+            elif i == ')':
+                self.texto = self.texto +'\n'
+            elif i =='(':
+                self.bandera=True
+        
+        for i in self.texto:
+            if not i=='\n' and self.contador==1:
+                self.puesto1+=i
+            if not i=='\n' and self.contador==2:
+                self.puesto2+=i
+            if not i=='\n' and self.contador==3:
+                self.puesto3+=i
+            if not i=='\n' and self.contador==4:
+                self.puesto4+=i
+            if not i=='\n' and self.contador==5:
+                self.puesto5+=i
+            if i=='\n':
+                self.contador+=1
 
+        self.puesto1R= self.fuente.render(self.puesto1, True, (200,200,200), (16,25,57) )
+        self.puesto2R= self.fuente.render(self.puesto2, True, (200,200,200), (16,25,57) )
+        self.puesto3R= self.fuente.render(self.puesto3, True, (200,200,200), (16,25,57) )
+        self.puesto4R= self.fuente.render(self.puesto4, True, (200,200,200), (16,25,57) )
+        self.puesto5R= self.fuente.render(self.puesto5, True, (200,200,200), (16,25,57) )
 
         pantalla.blit(self.fondo,(0,0))
-        pantalla.blit(self.imagenTexto1,(240,100))
-        pantalla.blit(self.imagenTexto2,(240,200))
-        pantalla.blit(self.imagenTexto3,(240,300))
-        pantalla.blit(self.imagenTexto4,(240,400))
-        pantalla.blit(self.imagenTexto5,(240,500))
+        pantalla.blit(self.puesto1R,(240,100))
+        pantalla.blit(self.puesto2R,(240,300))
+        pantalla.blit(self.puesto3R,(240,200))
+        pantalla.blit(self.puesto4R,(240,400))
+        pantalla.blit(self.puesto5R,(240,500))
+               
+
 
 
     def guardar(self, accion, nombreJugador, seleccionado, id):
