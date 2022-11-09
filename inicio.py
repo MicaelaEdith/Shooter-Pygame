@@ -2,6 +2,8 @@ import pygame
 from accesoDatos import AccesoDatos
 
 class Inicio():
+    def __init__(self):
+        self.acceso=AccesoDatos()
 
     def dibujar1(self, pantalla, event):
         self.fondo=pygame.image.load("img/Bienvenido.png")
@@ -27,7 +29,6 @@ class Inicio():
     def dibujarRanking(self, pantalla):  #cargarJuego-ListarRanking
 
         self.fondo=pygame.image.load("img/noche.png")
-        self.acceso=AccesoDatos()
         self.respuesta=str(self.acceso.listarRanking())
         self.fuente=pygame.font.SysFont("Courier", 30, bold=True)
         self.texto=' '
@@ -76,10 +77,10 @@ class Inicio():
         pantalla.blit(self.puesto3R,(240,200))
         pantalla.blit(self.puesto4R,(240,400))
         pantalla.blit(self.puesto5R,(240,500))
+
+        #print("RankingOn")
                
-
-
-
+               
     def guardar(self, accion, nombreJugador, seleccionado, id):
         self.agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('"+str(nombreJugador)+"',"+str(seleccionado)+",0,0);"
         self.modificar="UPDATE historial SET nombre = '"+str(nombreJugador)+"' WHERE id="+str(id)+";"
@@ -91,8 +92,19 @@ class Inicio():
             self.string=self.modificar
         if accion==3:
             self.string=self.eliminar
-        acceso=AccesoDatos()
-        acceso.ejecutarAccion(self.string)
+
+        self.acceso.ejecutarAccion(self.string)
+
+    def buscar(self, nombreJugador):
+        self.acceso.buscarJugador(nombreJugador)
+
+        pass
+
+    def __del__(self):
+        self.acceso.conexion.close()
+        #print("RankingOff")
+        
+
         
 ###########################----  Prueba
 

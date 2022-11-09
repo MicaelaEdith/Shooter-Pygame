@@ -38,6 +38,16 @@ class AccesoDatos:
             except Error as ex:
                 print(f'Fallo: {ex}')
 
+    def buscarJugador(self):
+        if self.conexion.is_connected():
+            try:
+                self.cursor=self.conexion.cursor()
+                self.cursor.execute('select nombre, mejorPuntaje from historial order by mejorPuntaje desc limit 5;')
+                self.respuesta=self.cursor.fetchall()
+
+
+            except Error as ex:
+                print(f'Fallo: {ex}')
 
 ############------Pruebas
 

@@ -10,10 +10,10 @@ pantalla = pygame.display.set_mode(medidaPantalla)
 reloj = pygame.time.Clock()
 inicio=Inicio()
 
-
 inicio1=0
+inicioBandera=False
 vidaJugador = True
-dia= False
+dia= True
 colisiones=0
 colision=False
 mapa= Mapa()
@@ -29,6 +29,7 @@ avion2=Avion2()
 ovni=Ovni()
 nivel=Nivel()
 plusVida=True
+seteo=True
 
 while vidaJugador:
                 
@@ -63,9 +64,8 @@ while vidaJugador:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     inicio1+=1
-
-                    
-
+                    inicioBandera=True
+                
     else: 
         mapa.dibujarMapa(pantalla)
         nubes.dibujarNubes(pantalla)
@@ -76,6 +76,10 @@ while vidaJugador:
         jugador.dibujarJugador(pantalla)
         rectJ=jugador.image.get_rect(x=jugador.posX, y=jugador.posY)
         rectJB=jugador.bala.get_rect(x=jugador.posX+48, y=jugador.coordYBala)
+
+        if inicioBandera:
+            del inicio
+            inicioBandera=False
 
         if jugador.puntos<20:                       #################################################---NIVEL1---
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
@@ -91,7 +95,7 @@ while vidaJugador:
 
     ##################---DefinirImagenLevelUp
 
-        plusVida=True
+        #plusVida=True
         if jugador.puntos>=20 and jugador.puntos<150 and misil1.contador<5:    ############################################---NIVEL2---
             rectM1=misil1.misil1[0].get_rect(x=misil1.coordX, y=misil1.coordY)
             rectM2=misil2.misil2[0].get_rect(x=misil2.coordX, y=misil2.coordY)
@@ -100,10 +104,13 @@ while vidaJugador:
             if rectJ.colliderect(rectM1) or rectJ.colliderect(rectM2):
                 colision.explotar(pantalla, jugador.posX-20)
                 jugador.vida-=5
-
-
-
-        if (jugador.puntos>=150 and jugador.puntos<250) or misil1.contador==15:   ############################################---NIVEL3---
+            
+        if (jugador.puntos>=150 and jugador.puntos<250) or misil1.contador==5:   ############################################---NIVEL3---
+            dia=False
+            if seteo:
+                mapa.setearMapa(dia)
+                seteo=False
+            
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
             rectA2=avion2.imagen.get_rect(x=avion2.coordX, y=avion2.coordY)
             avion1.dibujarAvion(pantalla,3.5,8)
