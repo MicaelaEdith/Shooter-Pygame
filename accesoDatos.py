@@ -21,7 +21,6 @@ class AccesoDatos:
                 cursor=self.conexion.cursor()
                 cursor.execute(string)
                 self.conexion.commit()
-                print('guardadoOk')
             except Error as ex:
                 print(f'Fallo: {ex}')
 
@@ -32,22 +31,37 @@ class AccesoDatos:
                 self.cursor=self.conexion.cursor()
                 self.cursor.execute('select nombre, mejorPuntaje from historial order by mejorPuntaje desc limit 5;')
                 self.respuesta=self.cursor.fetchall()
-
-                #print(self.respuesta)        
-                return str(self.respuesta)  #seguir desde acá
+     
+                return str(self.respuesta)
             except Error as ex:
                 print(f'Fallo: {ex}')
 
-    def buscarJugador(self):
+    def buscarJugador(self, nombreJugador):
+        if self.conexion.is_connected():
+            try:
+                self.nombre=nombreJugador
+                self.cursor=self.conexion.cursor()
+                self.cursor.execute(f"select nombre, id_avion from historial where nombre like '%{self.nombre}%';")
+                self.respuesta=self.cursor.fetchall()
+                return self.respuesta
+
+
+            except Error as ex:
+                print(f'Fallo: {ex}')
+
+    def buscarAvion(self, seleccion):
         if self.conexion.is_connected():
             try:
                 self.cursor=self.conexion.cursor()
-                self.cursor.execute('select nombre, mejorPuntaje from historial order by mejorPuntaje desc limit 5;')
-                self.respuesta=self.cursor.fetchall()
+                self.cursor.execute(f"select * from aviones where id={seleccion};")
+                self.respuesta=self.cursor.fetchone()
+                return self.respuesta
+                print(self.respuesta)
 
 
             except Error as ex:
                 print(f'Fallo: {ex}')
+            
 
 ############------Pruebas
 
@@ -57,3 +71,5 @@ class AccesoDatos:
 #eliminar="delete from historial where id=9;"
 #acceso=AccesoDatos()
 #acceso.ejecutarAccion(agregar)
+#print(acceso.buscarAvion(2))
+

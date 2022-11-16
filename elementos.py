@@ -138,6 +138,9 @@ class Misil2():
 
         pantalla.blit(self.misil2[self.cuadro], (self.coordX, self.coordY))
 
+    def __del__(self):
+        pass
+
 class Ovni():
     def __init__(self):
         self.coordX=10

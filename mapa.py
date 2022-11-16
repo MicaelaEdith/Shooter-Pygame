@@ -1,6 +1,5 @@
 import pygame
-
-from jugador import Jugador
+#from jugador import Jugador
 pygame.init()
 
 class Mapa:

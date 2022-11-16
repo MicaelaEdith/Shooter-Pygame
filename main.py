@@ -1,4 +1,5 @@
 import pygame
+import string
 from inicio import Inicio
 from mapa import Mapa
 from jugador import Jugador
@@ -8,17 +9,18 @@ pygame.init()
 medidaPantalla = (800,750)
 pantalla = pygame.display.set_mode(medidaPantalla)
 reloj = pygame.time.Clock()
-inicio=Inicio()
-
-inicio1=0
+inicioContador=0
 inicioBandera=False
 vidaJugador = True
+texto=''
+posX=1
+validacionNombre=False
 dia= True
 colisiones=0
 colision=False
 mapa= Mapa()
 mapa.setearMapa(dia)
-jugador=Jugador("Mica ")
+jugador=Jugador()
 nubes=Nubes()
 misil1=Misil1()
 misil2=Misil2()
@@ -30,9 +32,11 @@ ovni=Ovni()
 nivel=Nivel()
 plusVida=True
 seteo=True
+inicio=Inicio()
+
 
 while vidaJugador:
-                
+      
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             vidaJugador = False
@@ -45,31 +49,82 @@ while vidaJugador:
             jugador.BanderaBala=True
             jugador.BanderaImpacto=True
 
-    if inicio1==0:
-        inicio.dibujar1(pantalla,event)
+    if inicioContador==0:
+        inicio.dibujar0(pantalla,event)
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        inicio1+=1
-    elif inicio1==1:
-        inicio.dibujar2(pantalla)
-        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                vidaJugador = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    inicio1+=1
+                    if inicio.seleccionX==440:
+                        inicioContador+=2
+                    elif inicio.seleccionX==200:
+                        inicioContador+=1
+
+    elif inicioContador==1:
+
+        inicio.dibujar1(pantalla, texto, posX, validacionNombre)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                vidaJugador = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if validacionNombre:
+                        inicioContador+=2
+                        inicio.guardar('1', texto, posX, '0')
+                
+                if event.key == pygame.K_LEFT:
+                    if posX==2 or posX==3:
+                        posX-=1
+                if event.key == pygame.K_RIGHT:
+                    if posX ==1 or posX==2:
+                        posX+=1
+
+                if event.key == pygame.K_BACKSPACE:
+                    texto = texto[:-1]
+                elif not event.key==pygame.K_RETURN:
+                    texto += event.unicode      
+            if not texto=='':                                   #####seguir desde acá, máximo de caracteres=10 -- hacer validacion
+                validacionNombre=True
+            if texto=='':
+                validacionNombre=False
+
+            
+    elif inicioContador==2:
+        inicio.dibujar2(pantalla, texto)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                vidaJugador = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    inicioContador+=1
+
+                if event.key == pygame.K_BACKSPACE:
+                    texto = texto[:-1]
+                else:
+                    texto += event.unicode
     
-    elif inicio1==2:
-        inicio.dibujarRanking(pantalla)
+    elif inicioContador==3:
+        inicio.dibujar3(pantalla)
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                vidaJugador = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    inicio1+=1
-                    inicioBandera=True
+                    inicioContador+=1
+                    inicioBandera = True
                 
     else: 
         mapa.dibujarMapa(pantalla)
         nubes.dibujarNubes(pantalla)
         mapa.marcador(pantalla, 1, jugador.puntos)
+
+        if inicioBandera:
+            jugador.setearJugador(texto,posX)
+            del inicio
+            inicioBandera=False
+
         mapa.estadoJugador(pantalla, jugador.nombre, jugador.vida)
 
         jugador.moverJugador(event, pantalla)
@@ -77,9 +132,6 @@ while vidaJugador:
         rectJ=jugador.image.get_rect(x=jugador.posX, y=jugador.posY)
         rectJB=jugador.bala.get_rect(x=jugador.posX+48, y=jugador.coordYBala)
 
-        if inicioBandera:
-            del inicio
-            inicioBandera=False
 
         if jugador.puntos<20:                       #################################################---NIVEL1---
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
@@ -95,7 +147,7 @@ while vidaJugador:
 
     ##################---DefinirImagenLevelUp
 
-        #plusVida=True
+        plusVida=True
         if jugador.puntos>=20 and jugador.puntos<150 and misil1.contador<5:    ############################################---NIVEL2---
             rectM1=misil1.misil1[0].get_rect(x=misil1.coordX, y=misil1.coordY)
             rectM2=misil2.misil2[0].get_rect(x=misil2.coordX, y=misil2.coordY)
@@ -123,7 +175,6 @@ while vidaJugador:
 
         if jugador.puntos>=250 and jugador.puntos<450:   ############################################---NIVEL4---
             ovni.dibujarOvni(pantalla)
-
 
         if jugador.vida<800 and plusVida:
             rectE=estrella.estrella.get_rect(x=estrella.coordX, y=estrella.coordY)

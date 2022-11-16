@@ -4,8 +4,9 @@ from accesoDatos import AccesoDatos
 class Inicio():
     def __init__(self):
         self.acceso=AccesoDatos()
+        self.texto=''
 
-    def dibujar1(self, pantalla, event):
+    def dibujar0(self, pantalla, event):      #InicioGeneral
         self.fondo=pygame.image.load("img/Bienvenido.png")
         self.color=(255,255,255)
         self.seleccionAncho=160
@@ -22,11 +23,48 @@ class Inicio():
 
         self.seleccion= pygame.draw.rect(pantalla, self.color, (self.seleccionX, self.seleccionY, self.seleccionAncho, self.seleccionAlto))
 
-    def dibujar2(self, pantalla):
+    def dibujar1(self, pantalla, texto, posX,validacion):           #InicioJugadorNuevo
+        self.texto=texto
+        self.validacion="- Ingrese un nombre para continuar -"
+        self.color=(255,255,255)
+        self.seleccionAncho=100
+        self.seleccionAlto=5
+        self.seleccionX=150
+        self.seleccionY=380
         self.fondo=pygame.image.load("img/inicio.png")
-        pantalla.blit(self.fondo, [0, 0])
+        self.fuente=pygame.font.SysFont("Courier", 45, bold=True)
+        self.fuenteChica=pygame.font.SysFont("Courier", 25, bold=True)
+        self.renderNombre= self.fuente.render(self.texto, True, (200,200,200), (16,25,57) )
+        self.renderValidacion= self.fuenteChica.render(self.validacion, True, (200,200,200), (16,25,57) )
 
-    def dibujarRanking(self, pantalla):  #cargarJuego-ListarRanking
+
+        if posX ==1:
+            self.seleccionX=125
+        if posX ==2:
+            self.seleccionX=358
+        if posX ==3:
+            self.seleccionX=585
+
+
+        pantalla.blit(self.fondo, [0, 0])
+        pantalla.blit(self.renderNombre,(250,200))
+        if not validacion:
+            pantalla.blit(self.renderValidacion,[150,50])
+
+        self.seleccion= pygame.draw.rect(pantalla, self.color, (self.seleccionX, self.seleccionY, self.seleccionAncho, self.seleccionAlto))
+        
+
+
+    def dibujar2(self, pantalla, texto):           #InicioSeleccionJugador
+        self.acceso.buscarJugador(texto)
+        self.fondo=pygame.image.load("img/dia.png")
+        self.fuente=pygame.font.SysFont("Courier", 30, bold=True)
+        
+
+        #self.renderNombre= self.fuente.render(texto, True, (200,200,200), (16,25,57) )
+        pantalla.blit(self.fondo,(0,0))
+
+    def dibujar3(self, pantalla):       #cargarJuego-ListarRanking
 
         self.fondo=pygame.image.load("img/noche.png")
         self.respuesta=str(self.acceso.listarRanking())
@@ -77,42 +115,25 @@ class Inicio():
         pantalla.blit(self.puesto3R,(240,200))
         pantalla.blit(self.puesto4R,(240,400))
         pantalla.blit(self.puesto5R,(240,500))
-
-        #print("RankingOn")
-               
+              
                
     def guardar(self, accion, nombreJugador, seleccionado, id):
         self.agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('"+str(nombreJugador)+"',"+str(seleccionado)+",0,0);"
         self.modificar="UPDATE historial SET nombre = '"+str(nombreJugador)+"' WHERE id="+str(id)+";"
         self.eliminar="delete from historial where id="+str(id)+";"
         self.string=None
-        if accion==1:
+        if accion=='1':
             self.string=self.agregar
-        if accion==2:
+        if accion=='2':
             self.string=self.modificar
-        if accion==3:
+        if accion=='3':
             self.string=self.eliminar
 
         self.acceso.ejecutarAccion(self.string)
 
     def buscar(self, nombreJugador):
-        self.acceso.buscarJugador(nombreJugador)
-
+        
         pass
 
     def __del__(self):
         self.acceso.conexion.close()
-        #print("RankingOff")
-        
-
-        
-###########################----  Prueba
-
-#medidaPantalla = (800,750)
-#pantalla = pygame.display.set_mode(medidaPantalla)
-#inicio=True
-
-#inicio=Inicio()
-#inicio.dibujar(pantalla)
-
-#pygame.display.flip()
