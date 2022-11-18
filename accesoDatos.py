@@ -41,7 +41,7 @@ class AccesoDatos:
             try:
                 self.nombre=nombreJugador
                 self.cursor=self.conexion.cursor()
-                self.cursor.execute(f"select nombre, id_avion from historial where nombre like '%{self.nombre}%';")
+                self.cursor.execute(f"select nombre, id_avion from historial where nombre like '%{self.nombre}%' limit 3;")
                 self.respuesta=self.cursor.fetchall()
                 return self.respuesta
 
@@ -50,26 +50,25 @@ class AccesoDatos:
                 print(f'Fallo: {ex}')
 
     def buscarAvion(self, seleccion):
+        self.seleccion=seleccion
         if self.conexion.is_connected():
             try:
                 self.cursor=self.conexion.cursor()
-                self.cursor.execute(f"select * from aviones where id={seleccion};")
+                self.cursor.execute(f"select * from aviones where id={self.seleccion};")
                 self.respuesta=self.cursor.fetchone()
                 return self.respuesta
-                print(self.respuesta)
 
+            except Error as ex:
+                print(f'Fallo: {ex}')
+    
+    def buscarAvionJugador(self, nombre):
+        if self.conexion.is_connected():
+            try:
+                self.cursor=self.conexion.cursor()
+                self.cursor.execute(f"select id_avion from historial where nombre='{nombre}';")
+                self.respuesta=self.cursor.fetchone()
+                return self.respuesta
 
             except Error as ex:
                 print(f'Fallo: {ex}')
             
-
-############------Pruebas
-
-
-#agregar="insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) value ('Jugador6',2,80,140);"
-#modificar="UPDATE historial SET nombre = 'JugadorX' WHERE id=5;"
-#eliminar="delete from historial where id=9;"
-#acceso=AccesoDatos()
-#acceso.ejecutarAccion(agregar)
-#print(acceso.buscarAvion(2))
-

@@ -14,13 +14,18 @@ inicioBandera=False
 vidaJugador = True
 texto=''
 posX=1
+posY=1
+posBusquedaY=1
+avionSeleccionado=0
 validacionNombre=False
+busqueda=False
 dia= True
 colisiones=0
 colision=False
 mapa= Mapa()
 mapa.setearMapa(dia)
 jugador=Jugador()
+jugadorIdHistorial=None
 nubes=Nubes()
 misil1=Misil1()
 misil2=Misil2()
@@ -58,12 +63,13 @@ while vidaJugador:
                 if event.key == pygame.K_RETURN:
                     if inicio.seleccionX==440:
                         inicioContador+=2
+                        posX=1
+                        posY=1
                     elif inicio.seleccionX==200:
                         inicioContador+=1
 
     elif inicioContador==1:
-
-        inicio.dibujar1(pantalla, texto, posX, validacionNombre)
+        inicio.dibujar1(pantalla, texto, posX, posY, validacionNombre)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -73,6 +79,9 @@ while vidaJugador:
                     if validacionNombre:
                         inicioContador+=2
                         inicio.guardar('1', texto, posX, '0')
+                    if posY==2:
+                        inicioContador-=1
+                        texto=''
                 
                 if event.key == pygame.K_LEFT:
                     if posX==2 or posX==3:
@@ -80,30 +89,64 @@ while vidaJugador:
                 if event.key == pygame.K_RIGHT:
                     if posX ==1 or posX==2:
                         posX+=1
+                if event.key == pygame.K_UP:
+                    if posY==1:
+                        posY=2
+                if event.key == pygame.K_DOWN:
+                    if posY==2:
+                        posY=1
 
                 if event.key == pygame.K_BACKSPACE:
                     texto = texto[:-1]
                 elif not event.key==pygame.K_RETURN:
                     texto += event.unicode      
-            if not texto=='':                                   #####seguir desde acá, máximo de caracteres=10 -- hacer validacion
+            if not texto=='':                                 #####seguir desde acá, máximo de caracteres=10 , nomberesDiferentes-- hacer validacion
                 validacionNombre=True
             if texto=='':
                 validacionNombre=False
-
+        avionSeleccionado=posX
             
     elif inicioContador==2:
-        inicio.dibujar2(pantalla, texto)
+        inicio.dibujar2(pantalla, texto, posX, validacionNombre, busqueda, posBusquedaY)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 vidaJugador = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    inicioContador+=1
+                    if posX==2:
+                        inicioContador-=2
+                    else:
+                        if not busqueda:
+                            busqueda=True
+
+                        else:
+                            inicioContador+=1
+                            texto=inicio.nombreCarga
+                            avionSeleccionado=inicio.avionOk
+
+                if event.key == pygame.K_LEFT:
+                    if posX==2:
+                        posX=1
+                if event.key == pygame.K_RIGHT:
+                    if posX ==1:
+                        posX=2
+                if event.key == pygame.K_UP:
+                    if posBusquedaY==2 or posBusquedaY==3:
+                        posBusquedaY-=1
+                if event.key == pygame.K_DOWN:
+                    if posBusquedaY==1 or posBusquedaY==2:
+                        posBusquedaY+=1
 
                 if event.key == pygame.K_BACKSPACE:
                     texto = texto[:-1]
-                else:
-                    texto += event.unicode
+                elif not event.key==pygame.K_RETURN:
+                    texto += event.unicode   
+            
+            if not texto=='':
+                validacionNombre=True
+            if texto=='':
+                validacionNombre=False
     
     elif inicioContador==3:
         inicio.dibujar3(pantalla)
@@ -121,7 +164,7 @@ while vidaJugador:
         mapa.marcador(pantalla, 1, jugador.puntos)
 
         if inicioBandera:
-            jugador.setearJugador(texto,posX)
+            jugador.setearJugador(texto,avionSeleccionado)
             del inicio
             inicioBandera=False
 
