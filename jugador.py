@@ -17,7 +17,7 @@ class Jugador():
         self.BanderaImpacto=True
 
     def setearJugador(self,nombre,seleccion):
-        self.nombre=nombre                              ######################################## REVISAR
+        self.nombre=nombre 
         self.seleccion=seleccion
         self.caracteristicas=self.accesoDatos.buscarAvion(seleccion)
         self.velocidadMovimiento=self.caracteristicas[2]

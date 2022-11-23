@@ -76,9 +76,11 @@ while vidaJugador:
                 vidaJugador = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    if validacionNombre:
+                    if validacionNombre and inicio.validarUsuario(texto, pantalla):
                         inicioContador+=2
                         inicio.guardar('1', texto, posX, '0')
+                    else:
+                        inicio.dibujarValidacion(pantalla)
                     if posY==2:
                         inicioContador-=1
                         texto=''
@@ -98,9 +100,9 @@ while vidaJugador:
 
                 if event.key == pygame.K_BACKSPACE:
                     texto = texto[:-1]
-                elif not event.key==pygame.K_RETURN:
+                elif not event.key==pygame.K_RETURN and len(texto)<12:
                     texto += event.unicode      
-            if not texto=='':                                 #####seguir desde acá, máximo de caracteres=10 , nomberesDiferentes-- hacer validacion
+            if not texto=='':
                 validacionNombre=True
             if texto=='':
                 validacionNombre=False
@@ -112,18 +114,24 @@ while vidaJugador:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 vidaJugador = False
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if posX==2:
+                        texto=''
                         inicioContador-=2
                     else:
                         if not busqueda:
-                            busqueda=True
+                            if inicio.validarUsuario(validacionNombre, pantalla):
+                                busqueda=True
 
-                        else:
+                        elif busqueda and inicio.busqueda:
                             inicioContador+=1
                             texto=inicio.nombreCarga
                             avionSeleccionado=inicio.avionOk
+                            busqueda=False
+                            posBusquedaY=1
+                        
 
                 if event.key == pygame.K_LEFT:
                     if posX==2:
@@ -140,7 +148,7 @@ while vidaJugador:
 
                 if event.key == pygame.K_BACKSPACE:
                     texto = texto[:-1]
-                elif not event.key==pygame.K_RETURN:
+                elif not event.key==pygame.K_RETURN and len(texto)<12 and len(texto)>=0:
                     texto += event.unicode   
             
             if not texto=='':

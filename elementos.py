@@ -236,7 +236,7 @@ class ColisionAviones():
         self.Y=570
         self.cuadro=0
         self.listaImg=[]
-        self.Img0=pygame.image.load('img/ExplosionOvniCh1.png')
+        self.Img0=pygame.image.load('img/ExplosionOvniGr.png')
         self.Img0.set_colorkey([255,255,255])
         self.Img1=pygame.image.load('img/ExplosionOvniCh2.png')
         self.Img1.set_colorkey([255,255,255])

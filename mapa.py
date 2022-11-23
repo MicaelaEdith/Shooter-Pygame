@@ -1,5 +1,4 @@
 import pygame
-#from jugador import Jugador
 pygame.init()
 
 class Mapa:
@@ -35,7 +34,11 @@ class Mapa:
         self.superficie=self.fuente.render(str(jugador),True,self.color, self.colorFondo)
         self.vida=pygame.image.load('img/vida.png')
         self.vida.set_colorkey([255,255,255])
-        pantalla.blit(self.superficie, [700, 20])
+        
+        self.auxNombre=int(len(jugador))
+        self.posNombre=740-(self.auxNombre*8)
+
+        pantalla.blit(self.superficie, [self.posNombre, 20])
         
         if vida==1000:
             pantalla.blit(self.vida, [730, 50])

@@ -71,4 +71,4 @@ class AccesoDatos:
 
             except Error as ex:
                 print(f'Fallo: {ex}')
-            
+
