@@ -49,6 +49,19 @@ class AccesoDatos:
             except Error as ex:
                 print(f'Fallo: {ex}')
 
+    def buscarIdJugador(self, nombreJugador):
+        if self.conexion.is_connected():
+            try:
+                self.nombre=nombreJugador
+                self.cursor=self.conexion.cursor()
+                self.cursor.execute(f"select id from historial where nombre='{self.nombre}';")
+                self.respuesta=self.cursor.fetchone()
+                return self.respuesta
+
+
+            except Error as ex:
+                print(f'Fallo: {ex}')
+
     def buscarAvion(self, seleccion):
         self.seleccion=seleccion
         if self.conexion.is_connected():
@@ -71,4 +84,3 @@ class AccesoDatos:
 
             except Error as ex:
                 print(f'Fallo: {ex}')
-

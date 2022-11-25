@@ -26,6 +26,8 @@ mapa= Mapa()
 mapa.setearMapa(dia)
 jugador=Jugador()
 jugadorIdHistorial=None
+validarEliminar1=False
+validarEliminar2=False
 nubes=Nubes()
 misil1=Misil1()
 misil2=Misil2()
@@ -55,6 +57,10 @@ while vidaJugador:
             jugador.BanderaImpacto=True
 
     if inicioContador==0:
+        validarEliminar1=False
+        validarEliminar2=False
+        texto=''
+        inicio.usuarioOriginalNombre=None
         inicio.dibujar0(pantalla,event)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -76,13 +82,12 @@ while vidaJugador:
                 vidaJugador = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    if validacionNombre and inicio.validarUsuario(texto, pantalla):
+                    if validacionNombre and inicio.validarUsuario(texto):
                         inicioContador+=2
-                        inicio.guardar('1', texto, posX, '0')
-                    else:
-                        inicio.dibujarValidacion(pantalla)
+                        inicio.guardar('1', texto, posX)
+                  
                     if posY==2:
-                        inicioContador-=1
+                        inicioContador=0
                         texto=''
                 
                 if event.key == pygame.K_LEFT:
@@ -102,6 +107,7 @@ while vidaJugador:
                     texto = texto[:-1]
                 elif not event.key==pygame.K_RETURN and len(texto)<12:
                     texto += event.unicode      
+              
             if not texto=='':
                 validacionNombre=True
             if texto=='':
@@ -122,13 +128,14 @@ while vidaJugador:
                         inicioContador-=2
                     else:
                         if not busqueda:
-                            if inicio.validarUsuario(validacionNombre, pantalla):
+                            if inicio.validarUsuario(validacionNombre):
                                 busqueda=True
 
                         elif busqueda and inicio.busqueda:
-                            inicioContador+=1
-                            texto=inicio.nombreCarga
+                            inicioContador+=0.5
+                            texto=inicio.nombreCarga            
                             avionSeleccionado=inicio.avionOk
+                            posX=avionSeleccionado
                             busqueda=False
                             posBusquedaY=1
                         
@@ -150,12 +157,84 @@ while vidaJugador:
                     texto = texto[:-1]
                 elif not event.key==pygame.K_RETURN and len(texto)<12 and len(texto)>=0:
                     texto += event.unicode   
+                
             
             if not texto=='':
                 validacionNombre=True
             if texto=='':
                 validacionNombre=False
     
+    elif inicioContador==2.5:
+        inicio.dibujar2B(pantalla, texto, posX, posY, validacionNombre, validarEliminar1, validarEliminar2)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                vidaJugador = False
+     
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if not posY==3:
+                        if (validacionNombre  and inicio.validarUsuario(texto)) or texto==inicio.usuarioOriginalNombre:
+                            inicioContador+=0.5
+                            inicio.guardar('2', texto, posX)
+                    
+                        if posY==2:                     
+                            inicioContador=0
+                            texto=''
+                            inicio.cargaNombreOriginal=False
+                            validarEliminar1=False
+                            validarEliminar2=False
+
+                    if posY==3:
+                        if not validarEliminar1:
+                            validarEliminar1=True           ### Ver reseteado Banderas
+                            break
+
+                        if not validarEliminar2 and validarEliminar1:
+                            validarEliminar1=False
+                            validarEliminar2=True
+                            inicio.guardar('3', texto, posX)
+                            break
+
+                        #if validarEliminar2 and not validarEliminar1:          ###  probar otro IF
+                        if inicio.seleccionY==90 and inicio.seleccionX==65:
+                            validarEliminar2=False ############################### seguir desde acá ver linea 296/297 de inicio
+                            inicioContador=0
+                            posY=2
+                            break
+
+
+                if event.key == pygame.K_LEFT:
+                    if posY==1:
+                        if posX==2 or posX==3:
+                            posX-=1
+                    if posY==3:
+                        posY=2
+                    
+                if event.key == pygame.K_RIGHT:
+                    if posY==1:
+                        if posX ==1 or posX==2:
+                            posX+=1
+
+                    if posY==2:
+                        posY=3
+                if event.key == pygame.K_UP:
+                    if posY==1:
+                        posY=2
+                if event.key == pygame.K_DOWN:
+                    if posY==2 or posY==3:
+                        posY=1
+
+                if event.key == pygame.K_BACKSPACE:
+                    texto = texto[:-1]
+                elif not event.key==pygame.K_RETURN and len(texto)<12:
+                    texto += event.unicode      
+              
+            if not texto=='':
+                validacionNombre=True
+            if texto=='':
+                validacionNombre=False
+        avionSeleccionado=posX
+            
     elif inicioContador==3:
         inicio.dibujar3(pantalla)
         for event in pygame.event.get():
