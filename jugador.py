@@ -8,7 +8,7 @@ class Jugador():
         self.posX=340
         self.posY=625
         self.banderaVida=True
-        self.puntos=90
+        self.puntos=0
         self.nivel=1
         self.bala=pygame.image.load("img/bala.png")
         self.bala.set_colorkey([255,255,255])

@@ -14,12 +14,14 @@ class Avion1():
         self.coordYBala1=self.coordY
         self.coordYBala2=self.coordY
         self.banderaDireccion=True
+        self.inicioBala1=True
+        self.inicioBala1=False
 
     def dibujarAvion(self, pantalla,velX,velY):
         if self.banderaDireccion:
             if self.coordY<850:
                 self.coordX+=velX
-                self.coordY+=2.5
+                self.coordY+=velY
 
             else:
                 self.coordY=-30
@@ -38,15 +40,43 @@ class Avion1():
                 self.banderaDireccion=True
                 self.coordX=random.randrange(0,325)
 
-            pantalla.blit(self.imagen, (self.coordX, self.coordY))
 
-        if self.coordX >=120:                       #acomodarBalas-ver->coordenadas,velocidad,movimiento
-            self.coordYBala1+=8
-            pantalla.blit(self.imagenBala, (self.coordXBala1, self.coordYBala1))
+        if self.coordX>850:
 
-        if self.coordX >=450:
-            self.coordYBala2+=8
-            pantalla.blit(self.imagenBala, (self.coordXBala2, self.coordYBala2))
+            if self.banderaDireccion:
+                self.banderaDireccion=False
+            else:
+                self.banderaDireccion=True
+
+            
+        pantalla.blit(self.imagen, (self.coordX, self.coordY))
+
+
+        if self.coordX >=120:                      #Bala1
+            if self.inicioBala1:
+                self.inicioBala1=False
+                self.coordXinicial1=self.coordX
+                self.coordYBala2=self.coordY
+                self.coordXBala1=self.coordXinicial1
+            else:
+                self.coordYBala1+=8
+                pantalla.blit(self.imagenBala, (self.coordXBala1, self.coordYBala1))
+
+            if self.coordYBala2>810:
+                self.inicioBala2:True
+
+        if self.coordX >=450:                       #Bala2
+            if self.inicioBala2:
+                self.inicioBala2=False
+                self.coordXinicial2=self.coordX
+                self.coordYBala2=self.coordY
+                self.coordXBala2=self.coordXinicial2
+            else:    
+                self.coordYBala2+=8
+                pantalla.blit(self.imagenBala, (self.coordXBala2, self.coordYBala2))
+
+            if self.coordYBala2>810:
+                self.inicioBala2:True
 
 class Avion2():
     def __init__(self):

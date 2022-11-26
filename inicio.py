@@ -245,8 +245,7 @@ class Inicio():
     def dibujar2B(self, pantalla, texto, posX, posY, validacion, eliminar1, eliminar2):           #ModificarJugador
         self.texto=texto
         self.textoEliminar='Eliminar'
-        self.textoEliminar2=f'¿Seguro desea elimiar el usuario "{self.usuarioOriginalNombre}"?'
-        self.textoEliminar3=f'El usuario "{self.usuarioOriginalNombre}" fue eliminado'
+        self.textoEliminar2=f'¿Seguro desea eliminar el usuario "{self.usuarioOriginalNombre}"?'
         self.validacion="- Ingrese un nombre para continuar -"
         self.color=(255,255,255)
         self.seleccionAncho=120
@@ -260,8 +259,6 @@ class Inicio():
         self.renderValidacion= self.fuenteChica.render(self.validacion, True, (200,200,200), (16,25,57) )
         self.textoEliminarR=self.fuenteChica.render(self.textoEliminar, True, (200,200,200), (16,25,57) )
         self.textoEliminar2R=self.fuenteChica.render(self.textoEliminar2, True, (200,200,200), (16,25,57) )
-        self.textoEliminar3R=self.fuenteChica.render(self.textoEliminar3, True, (200,200,200), (16,25,57) )
-
 
         if not self.cargaNombreOriginal:
             self.usuarioOriginal=self.acceso.buscarJugador(self.texto)
@@ -294,10 +291,6 @@ class Inicio():
 
         if eliminar1 and self.seleccionX==340:
             pantalla.blit(self.textoEliminar2R,(70,100))
-        if eliminar2 and self.seleccionX==340:
-            pantalla.blit(self.textoEliminar3R,(130,262))
-            self.seleccionY=90
-            self.seleccionX=65
 
     
         self.textoVali=f'Su usuario es: "{self.usuarioOriginalNombre}", para modificarlo'

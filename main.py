@@ -1,6 +1,7 @@
 import pygame
 import string
 from inicio import Inicio
+from fin import Finalizado
 from mapa import Mapa
 from jugador import Jugador
 from elementos import Avion1, Avion2, Misil1, Misil2, Nubes, Estrella, ColisionAviones, Ovni, Nivel
@@ -40,6 +41,7 @@ nivel=Nivel()
 plusVida=True
 seteo=True
 inicio=Inicio()
+
 
 
 while vidaJugador:
@@ -82,7 +84,7 @@ while vidaJugador:
                 vidaJugador = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    if validacionNombre and inicio.validarUsuario(texto):
+                    if validacionNombre and inicio.validarUsuario(texto) and not posY==2:
                         inicioContador+=2
                         inicio.guardar('1', texto, posX)
                   
@@ -136,6 +138,7 @@ while vidaJugador:
                             texto=inicio.nombreCarga            
                             avionSeleccionado=inicio.avionOk
                             posX=avionSeleccionado
+                            inicio.cargaNombreOriginal=False
                             busqueda=False
                             posBusquedaY=1
                         
@@ -186,20 +189,17 @@ while vidaJugador:
 
                     if posY==3:
                         if not validarEliminar1:
-                            validarEliminar1=True           ### Ver reseteado Banderas
+                            validarEliminar1=True
                             break
 
                         if not validarEliminar2 and validarEliminar1:
+                            texto=''
                             validarEliminar1=False
                             validarEliminar2=True
                             inicio.guardar('3', texto, posX)
-                            break
-
-                        #if validarEliminar2 and not validarEliminar1:          ###  probar otro IF
-                        if inicio.seleccionY==90 and inicio.seleccionX==65:
-                            validarEliminar2=False ############################### seguir desde acá ver linea 296/297 de inicio
-                            inicioContador=0
                             posY=2
+                            inicioContador=0
+                            validarEliminar2=False
                             break
 
 
@@ -245,7 +245,7 @@ while vidaJugador:
                     inicioContador+=1
                     inicioBandera = True
                 
-    else: 
+    elif inicioContador==4: 
         mapa.dibujarMapa(pantalla)
         nubes.dibujarNubes(pantalla)
         mapa.marcador(pantalla, 1, jugador.puntos)
@@ -263,9 +263,9 @@ while vidaJugador:
         rectJB=jugador.bala.get_rect(x=jugador.posX+48, y=jugador.coordYBala)
 
 
-        if jugador.puntos<20:                       #################################################---NIVEL1---
+        if jugador.puntos<80:                       #################################################---NIVEL1---
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
-            avion1.dibujarAvion(pantalla,3.8,7)
+            avion1.dibujarAvion(pantalla,2.5,7)
             if rectJ.colliderect(rectA1): 
                 colision.explotar(pantalla, jugador.posX-20)
                 jugador.vida-=5
@@ -278,7 +278,7 @@ while vidaJugador:
     ##################---DefinirImagenLevelUp
 
         plusVida=True
-        if jugador.puntos>=20 and jugador.puntos<150 and misil1.contador<5:    ############################################---NIVEL2---
+        if jugador.puntos>=80 and jugador.puntos<150 and misil1.contador<5:    ############################################---NIVEL2---
             rectM1=misil1.misil1[0].get_rect(x=misil1.coordX, y=misil1.coordY)
             rectM2=misil2.misil2[0].get_rect(x=misil2.coordX, y=misil2.coordY)
             misil1.dibujarMisil(pantalla)
@@ -318,8 +318,33 @@ while vidaJugador:
         #if colisiones ==3:
         #   vidaJugador=False
 
-#definirPantallaFin
+    else:
+        finalizado=Finalizado(texto)
+        finalizado.dibujarGO(pantalla)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                vidaJugador = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                        inicioBandera=False
+                        vidaJugador = True
+                        texto=''
+                        posX=1
+                        posY=1
+                        posBusquedaY=1
+                        avionSeleccionado=0
+                        validacionNombre=False
+                        busqueda=False
+                        dia= True
+                        colisiones=0
+                        colision=False
+                        jugadorIdHistorial=None
+                        validarEliminar1=False
+                        validarEliminar2=False
+                        plusVida=True
+                        seteo=True
+                        inicioContador=0
 
     pygame.display.flip()
-    reloj.tick(60)
+    reloj.tick(80)
 

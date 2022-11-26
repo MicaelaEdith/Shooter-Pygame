@@ -84,3 +84,14 @@ class AccesoDatos:
 
             except Error as ex:
                 print(f'Fallo: {ex}')
+
+    def finalJuego(self, nombre):
+        if self.conexion.is_connected():
+            try:
+                self.cursor=self.conexion.cursor()
+                self.cursor.execute(f"select * from historial where nombre='{nombre}';")
+                self.respuesta=self.cursor.fetchone()
+                return self.respuesta
+
+            except Error as ex:
+                print(f'Fallo: {ex}')
