@@ -20,7 +20,14 @@ class Mapa:
         self.color= (0 ,0 ,0)
         self.colorFondo=(255,255,255)
         self.string="Puntaje : " + str(puntos)
-        self.nivel="Nivel: "+str(nivel)
+        self.seteoNivel=nivel
+
+        if nivel==2.5:
+            self.seteoNivel=2
+        else:
+            self.seteoNivel=nivel
+
+        self.nivel="Nivel: "+str(self.seteoNivel)
         self.fuente=pygame.font.SysFont("Courier", 20, bold= True)
         self.superficie=self.fuente.render(str(self.string),True,self.color, self.colorFondo)
         self.superficieN=self.fuente.render(str(self.nivel),True,self.color, self.colorFondo)
@@ -37,6 +44,7 @@ class Mapa:
         
         self.auxNombre=int(len(jugador))
         self.posNombre=740-(self.auxNombre*8)
+
 
         pantalla.blit(self.superficie, [self.posNombre, 20])
         

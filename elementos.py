@@ -2,20 +2,18 @@ import pygame, random
 
 class Avion1():
     def __init__(self):
-        self.coordX=random.randrange(0,220)
+        self.coordX=random.randrange(10,220)
         self.coordY=-50
-        self.cuadro=0
+        #self.cuadro=0
         self.imagen=pygame.image.load("img/Enemigo1.png")
         self.direct=4
         self.imagenBala=pygame.image.load("img/bala.png")
         self.imagenBala.set_colorkey([255,255,255])
-        self.coordXBala1=random.randrange(120,450)
-        self.coordXBala2=random.randrange(460,700)
-        self.coordYBala1=self.coordY
-        self.coordYBala2=self.coordY
         self.banderaDireccion=True
-        self.inicioBala1=True
-        self.inicioBala1=False
+        self.coordXinicial=0
+        self.coordYinicial=0
+        self.inicioBala=True
+
 
     def dibujarAvion(self, pantalla,velX,velY):
         if self.banderaDireccion:
@@ -26,7 +24,7 @@ class Avion1():
             else:
                 self.coordY=-30
                 self.banderaDireccion=False
-                self.coordX=random.randrange(375,750)
+                self.coordX=random.randrange(375,700)
 
             pantalla.blit(self.imagen, (self.coordX, self.coordY))
         
@@ -38,7 +36,7 @@ class Avion1():
             else:
                 self.coordY=-30
                 self.banderaDireccion=True
-                self.coordX=random.randrange(0,325)
+                self.coordX=random.randrange(0,300)
 
 
         if self.coordX>850:
@@ -51,32 +49,22 @@ class Avion1():
             
         pantalla.blit(self.imagen, (self.coordX, self.coordY))
 
+    def dibujarBala(self, pantalla, coordX, coordY):     ##   cambiar diferencia coordenada X bala-vion con direccion banderaDireccion
 
-        if self.coordX >=120:                      #Bala1
-            if self.inicioBala1:
-                self.inicioBala1=False
-                self.coordXinicial1=self.coordX
-                self.coordYBala2=self.coordY
-                self.coordXBala1=self.coordXinicial1
-            else:
-                self.coordYBala1+=8
-                pantalla.blit(self.imagenBala, (self.coordXBala1, self.coordYBala1))
+        if self.inicioBala:
+            self.inicioBala=False
+            self.coordXinicial=coordX+50         
+            self.coordYinicial=coordY+30
+            
+        if not self.inicioBala:
+            self.coordYinicial+=15
 
-            if self.coordYBala2>810:
-                self.inicioBala2:True
+        if self.coordYinicial>850:
+            self.inicioBala=True
+        
+        pantalla.blit(self.imagenBala, (self.coordXinicial, self.coordYinicial))
 
-        if self.coordX >=450:                       #Bala2
-            if self.inicioBala2:
-                self.inicioBala2=False
-                self.coordXinicial2=self.coordX
-                self.coordYBala2=self.coordY
-                self.coordXBala2=self.coordXinicial2
-            else:    
-                self.coordYBala2+=8
-                pantalla.blit(self.imagenBala, (self.coordXBala2, self.coordYBala2))
-
-            if self.coordYBala2>810:
-                self.inicioBala2:True
+        
 
 class Avion2():
     def __init__(self):
@@ -85,22 +73,70 @@ class Avion2():
         self.cuadro=0
         self.imagen=pygame.image.load("img/Enemigo2.png")
         self.direct=-2
+        self.imagenBala=pygame.image.load("img/bala.png")
+        self.imagenBala.set_colorkey([255,255,255])
+        self.coordXinicial=0
+        self.coordYinicial=0
+        self.inicioBala=True
+        self.banderaDireccion=False
 
     def dibujarAvion(self, pantalla,velX,velY):
-        if self.coordY<850:
-            self.coordX-=velX
-            self.coordY+=velY
+        if self.banderaDireccion:
+            if self.coordY<850:
+                self.coordX+=velX
+                self.coordY+=velY
 
+            else:
+                self.coordY=-250
+                self.banderaDireccion=False
+                self.coordX=random.randrange(375,700)
+
+            pantalla.blit(self.imagen, (self.coordX, self.coordY))
+        
         else:
-            self.coordY=-250
-            self.coordX=random.randrange(500,780)
+            if self.coordY<850:
+                self.coordX-=velX
+                self.coordY+=velY
 
+            else:
+                self.coordY=-250
+                self.banderaDireccion=True
+                self.coordX=random.randrange(0,300)
+
+
+        if self.coordX>850:
+
+            if self.banderaDireccion:
+                self.banderaDireccion=False
+            else:
+                self.banderaDireccion=True
+
+            
         pantalla.blit(self.imagen, (self.coordX, self.coordY))
+
+    def dibujarBala(self, pantalla, coordX, coordY):
+
+        if self.coordY>130:
+            if self.inicioBala:
+                self.inicioBala=False
+                self.coordYinicial=coordY+30
+                self.coordXinicial=coordX+50  
+
+                
+            if not self.inicioBala:
+                self.coordYinicial+=15
+                #self.coordXinicial=coordX+50  
+
+            if self.coordYinicial>850:
+                self.inicioBala=True
+            
+            pantalla.blit(self.imagenBala, (self.coordXinicial, self.coordYinicial))
+
         
 class Misil1():
     def __init__(self):
         self.coordX=random.randrange(750)
-        self.coordY=-50
+        self.coordY=-220
         self.cuadro=0
         self.misil1=[]
         self.misil1.append(pygame.image.load("img/misilA1.png"))
@@ -111,7 +147,7 @@ class Misil1():
         self.contador=0
 
     def dibujarMisil(self, pantalla):
-        if self.coordY<850:
+        if self.coordY<850 and self.contador<5:
 
             if self.coordX >750:
                 self.direct=-6
@@ -128,10 +164,13 @@ class Misil1():
                 self.coordX+=self.direct
 
         else:
-            self.coordY=-50
+            self.coordY=-220
             self.coordX=random.randrange(750)
             self.contador+=1
         pantalla.blit(self.misil1[self.cuadro], (self.coordX, self.coordY))
+
+    def __del__(self):
+        pass
 
 class Misil2():
     def __init__(self):
@@ -142,11 +181,12 @@ class Misil2():
         self.misil2.append(pygame.image.load('img/misilB1.png'))
         self.misil2.append(pygame.image.load('img/misilB2.png'))
         self.direct=6
+        self.contador=0
 
 
     def dibujarMisil(self, pantalla):
 
-        if self.coordY<850:
+        if self.coordY<850 and self.contador<5:
 
             if self.coordX >750:
                 self.direct=-6
@@ -162,9 +202,11 @@ class Misil2():
                 self.coordY+=5.5
                 self.cuadro=0
                 self.coordX+=self.direct
-        else:
+
+        else: 
             self.coordY=-220
-            self.coordX=random.randrange(750)                
+            self.coordX=random.randrange(750)
+            self.contador+=1              
 
         pantalla.blit(self.misil2[self.cuadro], (self.coordX, self.coordY))
 
@@ -317,10 +359,14 @@ class ColisionAviones():
 class Nivel():
     def __init__(self):
         self.imagen=pygame.image.load('img/nivel.png')
-        self.coordX=195
-        self.coordY=300
+        self.coordX=180
+        self.coordY=820
     
     def dibujar(self, pantalla):
+        if self.coordY>-100:
+            self.coordY-=12
         pantalla.blit(self.imagen, (self.coordX, self.coordY))
+
+
 
 

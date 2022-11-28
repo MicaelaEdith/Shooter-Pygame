@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 import string
 from inicio import Inicio
 from fin import Finalizado
@@ -25,6 +25,7 @@ colisiones=0
 colision=False
 mapa= Mapa()
 mapa.setearMapa(dia)
+nivelMarcador=3
 jugador=Jugador()
 jugadorIdHistorial=None
 validarEliminar1=False
@@ -175,17 +176,17 @@ while vidaJugador:
      
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    if not posY==3:
+                    if posY==1:
                         if (validacionNombre  and inicio.validarUsuario(texto)) or texto==inicio.usuarioOriginalNombre:
                             inicioContador+=0.5
                             inicio.guardar('2', texto, posX)
                     
-                        if posY==2:                     
-                            inicioContador=0
-                            texto=''
-                            inicio.cargaNombreOriginal=False
-                            validarEliminar1=False
-                            validarEliminar2=False
+                    if posY==2:                     
+                        inicioContador=0
+                        texto=''
+                        inicio.cargaNombreOriginal=False
+                        validarEliminar1=False
+                        validarEliminar2=False
 
                     if posY==3:
                         if not validarEliminar1:
@@ -248,7 +249,7 @@ while vidaJugador:
     elif inicioContador==4: 
         mapa.dibujarMapa(pantalla)
         nubes.dibujarNubes(pantalla)
-        mapa.marcador(pantalla, 1, jugador.puntos)
+        mapa.marcador(pantalla, nivelMarcador, jugador.puntos)
 
         if inicioBandera:
             jugador.setearJugador(texto,avionSeleccionado)
@@ -256,38 +257,75 @@ while vidaJugador:
             inicioBandera=False
 
         mapa.estadoJugador(pantalla, jugador.nombre, jugador.vida)
-
         jugador.moverJugador(event, pantalla)
         jugador.dibujarJugador(pantalla)
         rectJ=jugador.image.get_rect(x=jugador.posX, y=jugador.posY)
         rectJB=jugador.bala.get_rect(x=jugador.posX+48, y=jugador.coordYBala)
+        plusVida=True
+        
 
 
-        if jugador.puntos<80:                       #################################################---NIVEL1---
+        if nivelMarcador==1:                       #################################################---NIVEL1---
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
-            avion1.dibujarAvion(pantalla,2.5,7)
+            rectBala=avion1.imagenBala.get_rect(x=avion1.coordXinicial, y=avion1.coordYinicial)
+            nivelMarcador=1
+            avion1.dibujarBala(pantalla, avion1.coordX, avion1.coordY)
+            avion1.dibujarAvion(pantalla,3,8)
+
+
             if rectJ.colliderect(rectA1): 
                 colision.explotar(pantalla, jugador.posX-20)
                 jugador.vida-=5
+            
+            if rectJ.colliderect(rectBala): 
+                colision.explotar(pantalla, jugador.posX-20)
+                jugador.vida-=2.5
+                avion1.coordYinicial=840
+
             
             if rectJB.colliderect(rectA1) and jugador.BanderaImpacto:
                 colision.explotarE(pantalla, avion1.coordX, avion1.coordY)
                 jugador.puntos+=10
                 jugador.BanderaImpacto=False
 
-    ##################---DefinirImagenLevelUp
 
-        plusVida=True
-        if jugador.puntos>=80 and jugador.puntos<150 and misil1.contador<5:    ############################################---NIVEL2---
+        if jugador.puntos==80:
+            nivel.dibujar(pantalla)
+            if nivel.coordY<5:
+                nivelMarcador=2
+
+
+        if nivelMarcador==2:                                                        ############################################---NIVEL2---
             rectM1=misil1.misil1[0].get_rect(x=misil1.coordX, y=misil1.coordY)
             rectM2=misil2.misil2[0].get_rect(x=misil2.coordX, y=misil2.coordY)
-            misil1.dibujarMisil(pantalla)
-            misil2.dibujarMisil(pantalla)
+
+            if misil1.contador<6:
+                misil1.dibujarMisil(pantalla)
+
+            if misil2.contador<5:
+                misil2.dibujarMisil(pantalla)
+            else:
+                jugador.puntos=150
+                nivel.coordY=820
+                dibujarOK=True
+
             if rectJ.colliderect(rectM1) or rectJ.colliderect(rectM2):
                 colision.explotar(pantalla, jugador.posX-20)
-                jugador.vida-=5
-            
-        if (jugador.puntos>=150 and jugador.puntos<250) or misil1.contador==5:   ############################################---NIVEL3---
+                jugador.vida-=10
+    
+            if jugador.puntos==150:
+                nivelMarcador=2.5
+
+
+        if nivelMarcador==2.5:
+            nivel.dibujar(pantalla)
+            if nivel.coordY<5:
+                nivelMarcador=3
+                del misil1
+                del misil2
+
+
+        if nivelMarcador==3:   ############################################---NIVEL3---
             dia=False
             if seteo:
                 mapa.setearMapa(dia)
@@ -295,30 +333,65 @@ while vidaJugador:
             
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
             rectA2=avion2.imagen.get_rect(x=avion2.coordX, y=avion2.coordY)
-            avion1.dibujarAvion(pantalla,3.5,8)
-            avion2.dibujarAvion(pantalla, 3.5,8)
+            rectBala1=avion1.imagenBala.get_rect(x=avion1.coordXinicial, y=avion1.coordYinicial)
+            rectBala2=avion1.imagenBala.get_rect(x=avion2.coordXinicial, y=avion2.coordYinicial)
+
+            avion1.dibujarBala(pantalla, avion1.coordX, avion1.coordY)
+            avion1.dibujarAvion(pantalla,3,8)
+            avion2.dibujarBala(pantalla, avion1.coordX, avion1.coordY)
+            avion2.dibujarAvion(pantalla, 3,8)
+
             if rectJ.colliderect(rectA1) or rectJ.colliderect(rectA2):
                 colision.explotar(pantalla, jugador.posX-20)
+                jugador.vida-=12
+
+            if rectJ.colliderect(rectBala1) or rectJ.colliderect(rectBala2):
+                colision.explotar(pantalla, jugador.posX-20)
+                jugador.vida-=5
+                avion1.coordYinicial=840
+
+            if rectJB.colliderect(rectA1) and jugador.BanderaImpacto:
+                colision.explotarE(pantalla, avion1.coordX, avion1.coordY)
+                jugador.puntos+=10
+                jugador.BanderaImpacto=False
+
+            if rectJB.colliderect(rectA2) and jugador.BanderaImpacto:
+                colision.explotarE(pantalla, avion2.coordX, avion2.coordY)
+                jugador.puntos+=10
+                jugador.BanderaImpacto=False
+
+
             if (rectJB.colliderect(rectA1) or rectJB.colliderect(rectA2)) and rectJB.y<620:
                 jugador.puntos+=10
                 jugador.BanderaImpacto=False 
-
-        if jugador.puntos>=250 and jugador.puntos<450:   ############################################---NIVEL4---
+        
+        if jugador.puntos>=250 and jugador.puntos<450 and nivelMarcador==4:   ############################################---NIVEL4---
             ovni.dibujarOvni(pantalla)
 
-        if jugador.vida<800 and plusVida:
+        if jugador.vida<200:
+            inicioContador+=1
+
+                                            
+        if jugador.vida<800 and plusVida:           ######################## -- ESTRELLA 
             rectE=estrella.estrella.get_rect(x=estrella.coordX, y=estrella.coordY)
             estrella.caer(pantalla)
-            plusVida=False
             if rectJ.colliderect(rectE):
                 jugador.vida+=500
+                if nivelMarcador==1 or nivelMarcador==3:
+                    plusVida=False
+            if not rectJ.colliderect(rectE) and estrella.coordY>820:
+                 estrella.coordY=-50
+                 estrella.coordX-=random.randrange(-25, 35)
+        
+
+
         #if colision==True:
         #    colision=False
         #    colisiones+=1
         #if colisiones ==3:
         #   vidaJugador=False
 
-    else:
+    elif inicioContador==5:
         finalizado=Finalizado(texto)
         finalizado.dibujarGO(pantalla)
         for event in pygame.event.get():
@@ -344,6 +417,7 @@ while vidaJugador:
                         plusVida=True
                         seteo=True
                         inicioContador=0
+                        nivel=0
 
     pygame.display.flip()
     reloj.tick(80)

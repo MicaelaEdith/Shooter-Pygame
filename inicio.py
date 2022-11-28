@@ -206,9 +206,9 @@ class Inicio():
         if posBusquedaY==1:
             self.seleccionBusquedaY=405
         if posBusquedaY==2 and not self.puesto2=='':
-            self.seleccionBusquedaY=485
+            self.seleccionBusquedaY=505
         if posBusquedaY==3 and not self.puesto3=='':
-            self.seleccionBusquedaY=565
+            self.seleccionBusquedaY=605
 
         pantalla.blit(self.fondo, [0, 0])
         pantalla.blit(self.renderNombre,(250,200))
