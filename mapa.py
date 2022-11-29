@@ -24,6 +24,8 @@ class Mapa:
 
         if nivel==2.5:
             self.seteoNivel=2
+        elif nivel==3.5:
+            self.seteoNivel=3
         else:
             self.seteoNivel=nivel
 

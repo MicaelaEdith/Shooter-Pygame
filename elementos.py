@@ -49,7 +49,7 @@ class Avion1():
             
         pantalla.blit(self.imagen, (self.coordX, self.coordY))
 
-    def dibujarBala(self, pantalla, coordX, coordY):     ##   cambiar diferencia coordenada X bala-vion con direccion banderaDireccion
+    def dibujarBala(self, pantalla, coordX, coordY): 
 
         if self.inicioBala:
             self.inicioBala=False
@@ -116,21 +116,18 @@ class Avion2():
 
     def dibujarBala(self, pantalla, coordX, coordY):
 
-        if self.coordY>130:
-            if self.inicioBala:
-                self.inicioBala=False
-                self.coordYinicial=coordY+30
-                self.coordXinicial=coordX+50  
+        if self.inicioBala:
+            self.inicioBala=False
+            self.coordYinicial=coordY+30
+            self.coordXinicial=coordX+50  
 
-                
-            if not self.inicioBala:
-                self.coordYinicial+=15
-                #self.coordXinicial=coordX+50  
+        if not self.inicioBala:
+            self.coordYinicial+=18
 
-            if self.coordYinicial>850:
-                self.inicioBala=True
+        if self.coordYinicial>850:
+            self.inicioBala=True
             
-            pantalla.blit(self.imagenBala, (self.coordXinicial, self.coordYinicial))
+        pantalla.blit(self.imagenBala, (self.coordXinicial, self.coordYinicial))
 
         
 class Misil1():
@@ -224,39 +221,98 @@ class Ovni():
         self.imagenBala.set_colorkey([255,255,255])
         self.banderaDireccionX=True
         self.banderaDireccionY=True
-        self.coordYBala1=self.coordY
+        self.coordYBala1=self.coordY+40
         self.coordYBala2=self.coordY
+        self.coordYBala3=self.coordY
         self.coordXBala1=random.randrange(120,450)
         self.coordXBala2=random.randrange(460,700)
+        self.coordXBala3=random.randrange(460,700)
+        self.inicioBala1=False
+        self.inicioBala2=False
+        self.inicioBala3=False
+        self.coordYinicial1=self.coordY+70
+        self.coordXinicial1=self.coordX+110  
+        self.coordYinicial2=self.coordY+70
+        self.coordXinicial2=self.coordX+110  
+        self.coordYinicial3=self.coordY+70
+        self.coordXinicial3=self.coordX+110  
+        self.contadorBalas=0
 
     def dibujarOvni(self, pantalla):
-        if self.banderaDireccionX:
-            self.coordX+=5
-            if self.coordX>600:
-                self.banderaDireccionX=False
-        else:
-            self.coordX-=5
-            if self.coordX<-40:
-                self.banderaDireccionX=True
+        if self.contadorBalas<=31:
+            if self.banderaDireccionX:
+                self.coordX+=6
+                if self.coordX>600:
+                    self.banderaDireccionX=False
+            else:
+                self.coordX-=6
+                if self.coordX<-40:
+                    self.banderaDireccionX=True
 
-        if self.banderaDireccionY:
-            self.coordY+=3.5
-            if self.coordY>130:
-                self.banderaDireccionY=False
+            if self.banderaDireccionY:
+                self.coordY+=3.5
+                if self.coordY>130:
+                    self.banderaDireccionY=False
+            else:
+                self.coordY-=3.5
+                if self.coordY<-25:
+                    self.banderaDireccionY=True
+
+            if self.inicioBala1:
+                self.inicioBala1=False
+                self.coordYinicial1=self.coordY+70
+                self.coordXinicial1=self.coordX+110
+                self.coordYBala1=self.coordYinicial1
         else:
-            self.coordY-=3.5
-            if self.coordY<-25:
-                self.banderaDireccionY=True
+            self.coordY-=2.5
+            self.coordX+=3
+
     
-        if self.coordX >=120:                       #acomodarBalas-ver->coordenadas,velocidad,movimiento
-            self.coordYBala1+=7.5
-            pantalla.blit(self.imagenBala, (self.coordXBala1, self.coordYBala1))
+        if not self.inicioBala1:
+            self.coordYBala1+=12
+            pantalla.blit(self.imagenBala, (self.coordXinicial1, self.coordYBala1))
 
-        if self.coordX >=450:
-            self.coordYBala2+=7.5
-            pantalla.blit(self.imagenBala, (self.coordXBala2, self.coordYBala2))
+        if self.coordYBala1>845 and self.contadorBalas<30:
+            self.coordYBala1=self.coordY
+            self.inicioBala1=True
+            self.contadorBalas+=1
+
+        if self.inicioBala2:
+            self.inicioBala2=False
+            self.coordYinicial2=self.coordY+70
+            self.coordXinicial2=self.coordX+110
+            self.coordYBala2=self.coordYinicial2
+    
+        if not self.inicioBala2:
+            self.coordYBala2+=12
+            pantalla.blit(self.imagenBala, (self.coordXinicial2, self.coordYBala2))
+
+        if self.coordYBala2>990 and self.contadorBalas<32:
+            self.coordYBala2=self.coordY
+            self.inicioBala2=True
+            self.contadorBalas+=1
+
+
+        if self.inicioBala3:
+            self.inicioBala3=False
+            self.coordYinicial3=self.coordY+70
+            self.coordXinicial3=self.coordX+110
+            self.coordYBala3=self.coordYinicial3
+    
+        if not self.inicioBala3:
+            self.coordYBala3+=10
+            pantalla.blit(self.imagenBala, (self.coordXinicial3, self.coordYBala3))
+
+        if self.coordYBala3>1200 and self.contadorBalas<31:
+            self.coordYBala3=self.coordY
+            self.inicioBala3=True
+            self.contadorBalas+=1
+
+
 
         pantalla.blit(self.imagen, (self.coordX, self.coordY))
+
+
 
 class Nubes():
     def __init__(self):
@@ -356,6 +412,7 @@ class ColisionAviones():
                 self.banderaJugador=True
         pantalla.blit(self.listaImg[self.cuadro], (coordX, coordY))
 
+
 class Nivel():
     def __init__(self):
         self.imagen=pygame.image.load('img/nivel.png')
@@ -364,9 +421,26 @@ class Nivel():
     
     def dibujar(self, pantalla):
         if self.coordY>-100:
-            self.coordY-=12
+            self.coordY-=15
         pantalla.blit(self.imagen, (self.coordX, self.coordY))
 
+class Copa():
+    def __init__(self, texto):
+        self.imagen=pygame.image.load('img/ganador.png')
+        self.imagen.set_colorkey([255,255,255])
+        self.coordX=180
+        self.coordY=820
+        self.texto1=f'¡Felicidades {texto}!'
+        self.texto2='¡Ganaste el Juego!'
+        self.fuente=pygame.font.SysFont("Courier", 35, bold=True)
+        self.render1= self.fuente.render(self.texto1, True, (10,10,10), (140,203,221) )
+        self.render2= self.fuente.render(self.texto2, True, (10,10,10), (140,203,221) )
+    
+    def dibujar(self, pantalla):
+        if self.coordY>-450:
+            self.coordY-=15
+        pantalla.blit(self.imagen, (self.coordX+50, self.coordY))
+        pantalla.blit(self.render1,(self.coordX, self.coordY-150))
+        pantalla.blit(self.render2,(self.coordX, self.coordY+350))
 
-
-
+ 
