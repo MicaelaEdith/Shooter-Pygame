@@ -17,6 +17,7 @@ class Jugador():
         self.BanderaImpacto=True
         self.inicial=True
         self.coordXBalaInicial=self.posX
+        self.disparo=False
 
     def setearJugador(self,nombre,seleccion):
         self.nombre=nombre 
@@ -59,16 +60,25 @@ class Jugador():
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
-                if self.coordYBala>-1 and self.BanderaBala==True:
-                    self.coordYBala-=self.velocidadDisparo
-                    pantalla.blit(self.bala, (self.posX+48, self.coordYBala)) 
-                else:
-                    self.BanderaBala=False
-            if event.key == pygame.K_LEFT:
-                self.posX+=0
-            if event.key == pygame.K_RIGHT:
-                self.posX+=0
+                self.disparo=True
+                self.coordXBalaInicial=self.posX+48
 
+            
+           # if event.key == pygame.K_LEFT:
+            #    self.posX+=0
+            #if event.key == pygame.K_RIGHT:
+             #   self.posX+=0
+
+
+        if self.disparo:
+            if self.coordYBala>-1 and self.BanderaBala==True:
+                self.coordYBala-=self.velocidadDisparo
+                pantalla.blit(self.bala, (self.coordXBalaInicial, self.coordYBala)) 
+            else:
+                self.BanderaBala=False
+
+            if self.coordYBala<0:
+                self.disparo=False
 
 class Bala():
     def __init__(self):

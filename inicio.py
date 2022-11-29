@@ -116,9 +116,6 @@ class Inicio():
         self.aux1=''
         self.aux2=''
         self.aux3=''
-        self.avionJ1=None       #codigo para cargar imagen de avion usuario
-        self.avionJ2=None
-        self.avionJ3=None
         self.contAux=0
         self.contador=1
         self.seleccionBusquedaY=405
@@ -212,10 +209,6 @@ class Inicio():
 
         pantalla.blit(self.fondo, [0, 0])
         pantalla.blit(self.renderNombre,(250,200))
-        #pantalla.blit(self.avion,(335,635))
-        #pantalla.blit(self.avion,(335,635))
-        #pantalla.blit(self.avion,(335,635))
-        #pantalla.blit(self.avion,(335,635))
         pantalla.blit(self.nube,(25,40))
 
         self.puesto1R= self.fuente.render(self.puesto1, True, (200,200,200), (16,25,57) )
@@ -244,7 +237,7 @@ class Inicio():
 
     def dibujar2B(self, pantalla, texto, posX, posY, validacion, eliminar1, eliminar2):           #ModificarJugador
         self.texto=texto
-        self.textoEliminar='Eliminar'
+        self.textoEliminar='ELIMINAR'
         self.textoEliminar2=f'¿Seguro desea eliminar el usuario "{self.usuarioOriginalNombre}"?'
         self.validacion="- Ingrese un nombre para continuar -"
         self.color=(255,255,255)

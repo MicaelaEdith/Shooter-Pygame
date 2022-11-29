@@ -28,12 +28,8 @@ class Finalizado():
             self.acceso.ejecutarAccion(self.string2)
             self.bandera=False
 
-    def dibujarGO(self, pantalla, vida ):
+    def dibujarGO(self, pantalla):
         
-        if vida<200:
-            self.fondo=pygame.image.load("img/Gameover.png")
-            pantalla.blit(self.fondo, [0, 0])
-        if vida>=200:
-            pantalla.blit(self.render1,[180 , 700])
+        self.fondo=pygame.image.load("img/Gameover.png")
+        pantalla.blit(self.fondo, [0, 0])
 
-        

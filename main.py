@@ -22,7 +22,7 @@ validacionNombre=False
 busqueda=False
 dia= True
 colisiones=0
-avionesN3=600
+avionesN3=0
 mapa= Mapa()
 mapa.setearMapa(dia)
 nivelMarcador=1
@@ -42,8 +42,6 @@ ovni=Ovni()
 nivel=Nivel()
 plusVida=True
 seteo=True
-
-
 
 
 
@@ -260,6 +258,8 @@ while vidaJugador:
             del inicio
             inicioBandera=False
             copa=Copa(texto)
+            dia=True
+            
         
         mapa.estadoJugador(pantalla, jugador.nombre, jugador.vida)
         jugador.moverJugador(event, pantalla)
@@ -278,7 +278,8 @@ while vidaJugador:
 
 
             if rectJ.colliderect(rectA1): 
-                colision.explotar(pantalla, jugador.posX-20)
+                colision.explotar
+                (pantalla, jugador.posX-20)
                 jugador.vida-=5
             
             if rectJ.colliderect(rectBala): 
@@ -357,17 +358,14 @@ while vidaJugador:
 
             if rectJB.colliderect(rectA1):
                 colision.explotarE(pantalla, avion1.coordX, avion1.coordY)
-                jugador.puntos+=5
+                jugador.puntos+=1
                 jugador.BanderaImpacto=False
 
             if rectJB.colliderect(rectA2):
                 colision.explotarE(pantalla, avion2.coordX, avion2.coordY)
-                jugador.puntos+=8
+                jugador.puntos+=2
                 jugador.BanderaImpacto=False
             
-            if (rectJB.colliderect(rectA1) or rectJB.colliderect(rectA2)) and rectJB.y<620:
-                jugador.puntos+=4
-                jugador.BanderaImpacto=False 
 
             if not jugador.BanderaImpacto:
                 avionesN3+=1
@@ -405,11 +403,35 @@ while vidaJugador:
 
         if ovni.contadorBalas>31 and ovni.coordY<-150:            
             copa.dibujar(pantalla)
-            if copa.render2.coordY<191:
-                for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_RETURN:
-                            inicioContador=0
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        inicio=Inicio()
+                        misil1=Misil1()
+                        misil2=Misil2()
+                        inicioBandera=False
+                        vidaJugador = True
+                        texto=''
+                        posX=1
+                        posY=1
+                        posBusquedaY=1
+                        avionSeleccionado=0
+                        validacionNombre=False
+                        busqueda=False
+                        dia= True
+                        colisiones=0
+                        jugadorIdHistorial=None
+                        validarEliminar1=False
+                        validarEliminar2=False
+                        plusVida=True
+                        seteo=True
+                        nivel=0
+                        nivelMarcador=1
+                        inicioContador=0
+                        jugador.puntos=0
+                        mapa.setearMapa(dia)
+                        estrella.coordY=-50
+
 
         if jugador.vida<200:
             inicioContador+=1
@@ -420,12 +442,13 @@ while vidaJugador:
             estrella.caer(pantalla)
             if rectJ.colliderect(rectE):
                 jugador.vida+=500
+                estrella.coordY=-50
                 if nivelMarcador==1 or nivelMarcador==3:
                     plusVida=False
-            if not rectJ.colliderect(rectE) and estrella.coordY>820:
+            if not rectJ.colliderect(rectE) and estrella.coordY>920:
                  estrella.coordY=-50
                  estrella.coordX-=random.randrange(-25, 35)
-        
+
 
     elif inicioContador==5:
         finalizado=Finalizado(texto, jugador.puntos)
@@ -457,6 +480,10 @@ while vidaJugador:
                         nivel=0
                         inicioContador=0
                         finalizado.bandera=True
+                        nivelMarcador=1
+                        jugador.puntos=0
+                        mapa.setearMapa(dia)
+                        estrella.coordY=-50
 
     pygame.display.flip()
     reloj.tick(80)

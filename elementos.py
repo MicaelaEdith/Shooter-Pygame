@@ -356,6 +356,8 @@ class Estrella():
     def caer(self, pantalla):
         self.coordY+=4
         self.coordX+=1
+        if self.coordX>700 and self.coordY<10:
+            self.coordX=80
         pantalla.blit(self.estrella, (self.coordX, self.coordY))
 
 
@@ -432,15 +434,18 @@ class Copa():
         self.coordY=820
         self.texto1=f'¡Felicidades {texto}!'
         self.texto2='¡Ganaste el Juego!'
+        self.texto3='Presiona ENTER para volver a Jugar'
         self.fuente=pygame.font.SysFont("Courier", 35, bold=True)
+        self.fuente2=pygame.font.SysFont("Courier", 20, bold=True)
         self.render1= self.fuente.render(self.texto1, True, (10,10,10), (140,203,221) )
         self.render2= self.fuente.render(self.texto2, True, (10,10,10), (140,203,221) )
+        self.render3= self.fuente2.render(self.texto3, True, (10,10,10), (140,203,221) )
     
     def dibujar(self, pantalla):
-        if self.coordY>-450:
+        if self.coordY>290:
             self.coordY-=15
-        pantalla.blit(self.imagen, (self.coordX+50, self.coordY))
-        pantalla.blit(self.render1,(self.coordX, self.coordY-150))
-        pantalla.blit(self.render2,(self.coordX, self.coordY+350))
-
+        pantalla.blit(self.imagen, (self.coordX+50, self.coordY-60))
+        pantalla.blit(self.render1,(self.coordX-15, self.coordY-150))
+        pantalla.blit(self.render2,(self.coordX, self.coordY+270))
+        pantalla.blit(self.render3,(self.coordX+15, self.coordY-170))
  

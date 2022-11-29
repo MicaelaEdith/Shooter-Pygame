@@ -2,13 +2,13 @@ show databases;
 use shooter_db;
 
 insert into aviones (nombre, velocidadMovimiento, velocidadDisparo, potenciaDisparo, salud)
-value ('Pampa', 5, 20, 5, 10);
+value ('Pampa', 5, 20, 5, 1000);
 
 insert into aviones (nombre, velocidadMovimiento, velocidadDisparo, potenciaDisparo, salud)
-value ('Tango', 6, 18, 4, 8);
+value ('Tango', 6, 18, 4, 800);
 
 insert into aviones (nombre, velocidadMovimiento, velocidadDisparo, potenciaDisparo, salud)
-value ('Puma', 5.5, 18.5, 4.5, 9);
+value ('Puma', 5.5, 18.5, 4.5, 900);
 
 insert into historial (nombre,id_avion,historialPuntos,mejorPuntaje) 
 value ('Jugador1',1,150,200);
