@@ -63,12 +63,6 @@ class Jugador():
                 self.disparo=True
                 self.coordXBalaInicial=self.posX+48
 
-            
-           # if event.key == pygame.K_LEFT:
-            #    self.posX+=0
-            #if event.key == pygame.K_RIGHT:
-             #   self.posX+=0
-
 
         if self.disparo:
             if self.coordYBala>-1 and self.BanderaBala==True:
@@ -80,37 +74,4 @@ class Jugador():
             if self.coordYBala<0:
                 self.disparo=False
 
-class Bala():
-    def __init__(self):
-        self.bala=pygame.image.load("img/bala.png")
-        self.bala.set_colorkey([255,255,255])
-        self.coordYBala=635
-        self.BanderaBala=True
-        self.BanderaImpacto=True
-        self.inicial=True
-        
-
-    def dibujarBala(self, pantalla, coordX, coordY):
-        if self.inicial:
-            self.coordXBalaInicial=self.coordX+45
-            self.inicial=False
-
-        if self.coordYBala>-1 and self.BanderaBala==True:
-            self.coordYBala-=self.velocidadDisparo
-            
-        else:
-            self.BanderaBala=False
-
-        if event.key == pygame.K_LEFT:
-            self.posX+=0
-        if event.key == pygame.K_RIGHT:
-            self.posX+=0
-
-        if self.BanderaBala==False:
-            self.coordYBala=635
-            self.BanderaBala=True
-            self.BanderaImpacto=True
-            self.inicial=True
-        
-        pantalla.blit(self.bala, (self.coordXBalaInicial, self.coordYBala)) 
     

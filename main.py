@@ -409,6 +409,7 @@ while vidaJugador:
                         inicio=Inicio()
                         misil1=Misil1()
                         misil2=Misil2()
+                        avionesN3=0
                         inicioBandera=False
                         vidaJugador = True
                         texto=''
@@ -431,6 +432,7 @@ while vidaJugador:
                         jugador.puntos=0
                         mapa.setearMapa(dia)
                         estrella.coordY=-50
+                        nivel.coordY=820
 
 
         if jugador.vida<200:
@@ -482,8 +484,10 @@ while vidaJugador:
                         finalizado.bandera=True
                         nivelMarcador=1
                         jugador.puntos=0
+                        avionesN3=0
                         mapa.setearMapa(dia)
                         estrella.coordY=-50
+                        nivel.coordY=820
 
     pygame.display.flip()
     reloj.tick(80)
