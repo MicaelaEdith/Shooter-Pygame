@@ -274,7 +274,7 @@ while vidaJugador:
             rectBala=avion1.imagenBala.get_rect(x=avion1.coordXinicial, y=avion1.coordYinicial)
             nivelMarcador=1
             avion1.dibujarAvion(pantalla,3,8)
-            avion1.dibujarBala(pantalla, avion1.coordX, avion1.coordY)
+            avion1.dibujarBala(pantalla, avion1.coordX, avion1.coordY+52)
 
 
             if rectJ.colliderect(rectA1): 
@@ -291,11 +291,12 @@ while vidaJugador:
             if rectJB.colliderect(rectA1) and jugador.BanderaImpacto:
                 colision.explotarE(pantalla, avion1.coordX, avion1.coordY)
                 jugador.coordYBala=635
-                jugador.puntos+=10
+                jugador.puntos+=2
                 jugador.BanderaImpacto=False
+                jugador.BanderaBala=False
 
 
-        if jugador.puntos==80:
+        if jugador.puntos>=80 and nivelMarcador==1:
             nivel.dibujar(pantalla)
             if nivel.coordY<5:
                 nivelMarcador=2
@@ -335,6 +336,7 @@ while vidaJugador:
             dia=False
             if seteo:
                 mapa.setearMapa(dia)
+                nivel.coordY=820
                 seteo=False
             
             rectA1=avion1.imagen.get_rect(x=avion1.coordX, y=avion1.coordY)
@@ -356,15 +358,19 @@ while vidaJugador:
                 jugador.vida-=5
                 avion1.coordYinicial=840
 
-            if rectJB.colliderect(rectA1):
+            if rectJB.colliderect(rectA1) and jugador.BanderaImpacto:
                 colision.explotarE(pantalla, avion1.coordX, avion1.coordY)
+                jugador.coordYBala=635
                 jugador.puntos+=1
                 jugador.BanderaImpacto=False
+                jugador.BanderaBala=False
 
-            if rectJB.colliderect(rectA2):
+            if rectJB.colliderect(rectA2) and jugador.BanderaImpacto:
                 colision.explotarE(pantalla, avion2.coordX, avion2.coordY)
+                jugador.coordYBala=635
                 jugador.puntos+=2
                 jugador.BanderaImpacto=False
+                jugador.BanderaBala=False
             
 
             if not jugador.BanderaImpacto:
@@ -382,9 +388,8 @@ while vidaJugador:
                 if not seteo:
                     mapa.setearMapa(dia)
                     seteo=True
+                    nivel.coordY=820
                     
-                    
-            
 
         if nivelMarcador==4:                             ############################################---NIVEL4---
             rectO=ovni.imagen.get_rect(x=ovni.coordX, y=ovni.coordY)
@@ -394,9 +399,12 @@ while vidaJugador:
             ovni.dibujarOvni(pantalla)
             mapa.marcador(pantalla, nivelMarcador, jugador.puntos)
             mapa.estadoJugador(pantalla, jugador.nombre, jugador.vida)
-            if rectJB.colliderect(rectO):
+            if rectJB.colliderect(rectO) and jugador.BanderaImpacto:
                 colision.explotarE(pantalla, ovni.coordX, ovni.coordY)
+                jugador.coordYBala=635
                 jugador.puntos+=2
+                jugador.BanderaImpacto=False
+                jugador.BanderaBala=False
             if rectJ.colliderect(rectOB1) or rectJ.colliderect(rectOB2) or rectJ.colliderect(rectOB3):
                 colision.explotar(pantalla, jugador.posX-20)
                 jugador.vida-=10
@@ -432,7 +440,6 @@ while vidaJugador:
                         jugador.puntos=0
                         mapa.setearMapa(dia)
                         estrella.coordY=-50
-                        nivel.coordY=820
 
 
         if jugador.vida<200:
@@ -487,7 +494,7 @@ while vidaJugador:
                         avionesN3=0
                         mapa.setearMapa(dia)
                         estrella.coordY=-50
-                        nivel.coordY=820
+                        
 
     pygame.display.flip()
     reloj.tick(80)
