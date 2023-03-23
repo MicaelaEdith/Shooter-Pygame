@@ -497,5 +497,5 @@ while vidaJugador:
                         
 
     pygame.display.flip()
-    reloj.tick(80)
+    reloj.tick(40)
 
